@@ -25,8 +25,8 @@ public class LinkedList<T> {
 	
 	// default constructor creates a list with only the head pointing to the tail and a size of 0
 	public LinkedList() {
-		Node _head = new Node();
-		Node _tail = new Node(null, null);
+		_head = new Node(null, null);
+		_tail = new Node(null, null);
 		_head._next = _tail;
 		_size = 0;
 	}
@@ -87,20 +87,20 @@ public class LinkedList<T> {
 	// returns the node before the one that was passed in
 	private Node previous(T target) {
 		if (target == null) return null;
-		return previous(target, _head._next);
+		return previous(target, _head);
 	}
 	
 	private Node previous(T target, Node node) {
 		if (node == _tail || node == null) return null;
-		if (node._next._data.equals(target)) return node._next;
+		if (node._next._data.equals(target)) return node;
 		return previous(target, node._next);
 	}
 	
 	// removes the passed in target node and decreases the size by 1 
 	public boolean remove(T target) {
-		Node node = findNode(target);
-		if (node != null) {
-			previous(node._data)._next = node._next;
+		if (target != null) {
+			Node p = previous(target);
+			p._next = p._next._next;
 			_size--;
 			return true;
 		}
@@ -109,16 +109,24 @@ public class LinkedList<T> {
 	
 	// returns the node before the tail
 	private Node last() {
-		return previous(_tail._data);
+		if (_head._next == _tail) return _head;
+		return last(_head._next);
+	}
+	
+	private Node last(Node n) {
+		if (n._next == _tail) return n;
+		return (last(n._next));
 	}
 	 
+	// adds an element as a node before the tail
 	public void addToBack(T element) {
 		if (element == null) return;
 		Node node = new Node(element, _tail);
-		previous(_tail._data)._next = node;
+		last()._next = node;
 		_size++;
 	}
 	
+	// makes the node's data into a string
 	public String toString() {
 		return toString("", _head._next);
 	}
@@ -131,8 +139,9 @@ public class LinkedList<T> {
 		return toString(string, node._next);
 	}
 	
+	// reverses the list
 	public void reverse() {
-		reverse(0, _head._next, previous(_tail._data));
+		reverse(0, _head._next, last());
 	}
 	
 	private void reverse(int reps, Node front, Node back) {
@@ -142,6 +151,4 @@ public class LinkedList<T> {
 		back = temp;
 		reverse(reps+1, front._next, previous(back._data));
 	}
-	
-	// test test
 }
