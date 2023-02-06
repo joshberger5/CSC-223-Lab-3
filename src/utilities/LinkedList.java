@@ -1,0 +1,147 @@
+package utilities;
+
+public class LinkedList<T> {
+	// the list has sentinel nodes head and tail as well as a size
+	private Node _head;
+	private Node _tail;
+	private int _size;
+	
+	// each node has data in it and points to the node before it
+	private class Node {
+		private T _data;
+		private Node _next;
+		
+		// default constructor creates a node with nothing in it and pointing to nothing
+		public Node() {
+			this(null, null);
+		}
+		
+		// constructor creates a node from the passed in values
+		public Node(T data, Node next) {
+			_data = data;
+			_next = next;
+		}
+	}
+	
+	// default constructor creates a list with only the head pointing to the tail and a size of 0
+	public LinkedList() {
+		Node _head = new Node();
+		Node _tail = new Node(null, null);
+		_head._next = _tail;
+		_size = 0;
+	}
+	
+	// checks if there are no nodes in between the sentinel nodes
+	public boolean isEmpty() {
+		return _head._next == _tail;
+	}
+	
+	// reverts to the head pointing to the tail and the size to 0
+	public void clear() {
+		_head._next = _tail;
+		_size = 0;
+	}
+	
+	// returns the size 
+	public int size() {
+		return _size;
+	}
+	
+	// if the passed in element is valid adds it as a node to the front of the list adding 1 to the size
+	public void addToFront(T element) {
+		if (element == null) return;
+		Node node = new Node(element, _head._next);
+		_head._next = node;
+		_size++;
+	}
+	
+	// checks if the passed in target is in the list
+	public boolean contains(T target) {
+		return getIndex(target) > -1;
+	}
+	
+	// finds the index of the target and if not, returns -1
+	private int getIndex(T target) {
+		if (target == null) return -1;
+		return getIndex(target, _head._next, 0);
+	}
+	
+	private int getIndex(T target, Node node, int index) {
+		if (node == _tail || node == null) return -1;
+		if (node._data.equals(target)) return index;
+		return getIndex(target, node._next, index+1);
+	}
+	
+	// returns the matching node in the list to the passed in target
+	private Node findNode(T target) {
+		if (target == null) return null;
+		return findNode(target, _head._next);
+	}
+	
+	private Node findNode(T target, Node node) {
+		if (node == _tail || node == null) return null;
+		if (node._data.equals(target)) return node;
+		return findNode(target, node._next);
+	}
+	
+	// returns the node before the one that was passed in
+	private Node previous(T target) {
+		if (target == null) return null;
+		return previous(target, _head._next);
+	}
+	
+	private Node previous(T target, Node node) {
+		if (node == _tail || node == null) return null;
+		if (node._next._data.equals(target)) return node._next;
+		return previous(target, node._next);
+	}
+	
+	// removes the passed in target node and decreases the size by 1 
+	public boolean remove(T target) {
+		Node node = findNode(target);
+		if (node != null) {
+			previous(node._data)._next = node._next;
+			_size--;
+			return true;
+		}
+		return false;
+	}
+	
+	// returns the node before the tail
+	private Node last() {
+		return previous(_tail._data);
+	}
+	 
+	public void addToBack(T element) {
+		if (element == null) return;
+		Node node = new Node(element, _tail);
+		previous(_tail._data)._next = node;
+		_size++;
+	}
+	
+	public String toString() {
+		return toString("", _head._next);
+	}
+	
+	public String toString(String string, Node node) {
+		if (node == _tail) return string;
+		string = string + node._data + "";
+		if (node._next == _tail) return string;
+		string = string + " ";
+		return toString(string, node._next);
+	}
+	
+	public void reverse() {
+		reverse(0, _head._next, previous(_tail._data));
+	}
+	
+	private void reverse(int reps, Node front, Node back) {
+		if (reps >= _size/2) return;
+		Node temp = front;
+		front = back;
+		back = temp;
+		reverse(reps+1, front._next, previous(back._data));
+	}
+	
+	// test test
+}
