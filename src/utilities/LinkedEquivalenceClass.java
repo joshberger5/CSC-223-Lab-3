@@ -31,6 +31,7 @@ public class LinkedEquivalenceClass<T> {
 	}
 	
 	public int size() {
+		if (_canonical == null) return _rest.size();
 		return _rest.size()+1;
 	}
 	
@@ -50,7 +51,7 @@ public class LinkedEquivalenceClass<T> {
 	}
 	
 	public boolean remove(T target) {
-		
+		if (!belongs(target)) return false;
 		return _rest.remove(target);
 	}
 	
@@ -67,6 +68,6 @@ public class LinkedEquivalenceClass<T> {
 	}
 	
 	public String toString() {
-		
+		return _canonical + " " + _rest.toString();
 	}
 }
