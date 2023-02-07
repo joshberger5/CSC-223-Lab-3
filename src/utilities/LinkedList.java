@@ -71,7 +71,7 @@ public class LinkedList<T> {
 	 * @param element
 	 */
 	public void addToFront(T element) {
-		if (element == null) return;
+		if (element == null && !contains(element)) return;
 		Node node = new Node(element, _head._next);
 		_head._next = node;
 		_size++;
@@ -169,7 +169,7 @@ public class LinkedList<T> {
 	 * @param element
 	 */
 	public void addToBack(T element) {
-		if (element == null) return;
+		if (element == null && !contains(element)) return;
 		Node node = new Node(element, _tail);
 		last()._next = node;
 		_size++;
