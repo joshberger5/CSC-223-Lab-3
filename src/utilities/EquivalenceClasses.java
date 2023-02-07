@@ -1,5 +1,6 @@
 package utilities;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -9,21 +10,32 @@ public class EquivalenceClasses<T> {
 	protected List<LinkedEquivalenceClass<T>> _classes;
 	
 	/**
-	 * constructor passes in comparator
+	 * constructor that retrieves a comparator
 	 * @param comparator
 	 */
 	public EquivalenceClasses(Comparator<T> comparator) {
 		_comparator = comparator;
-		_classes = null;
+		_classes = new ArrayList<LinkedEquivalenceClass<T>>();
 	}
 	
 	/**
-	 * 
+	 * adds an element to an appropriate equivalence list based on the comparator
 	 * @param element
 	 * @return
 	 */
 	public boolean add(T element) {
-		return false;
+		// adds to existing equivalence class
+		for(LinkedEquivalenceClass<T> aClass : _classes) {
+			if(aClass.add(element)) {
+				return true;
+			}
+		}
+		// creates new equivalence class containing element
+		LinkedEquivalenceClass<T> equivalence = new LinkedEquivalenceClass<T>(_comparator);
+		if(!equivalence.add(element)) {
+			return false;
+		}
+		return _classes.add(equivalence);
 	}
 	
 	/**
@@ -32,7 +44,7 @@ public class EquivalenceClasses<T> {
 	 * @return
 	 */
 	public boolean contains(T target) {
-		return false;
+		return indexOfClass(target) > -1;
 	}
 	
 	/**
@@ -40,7 +52,11 @@ public class EquivalenceClasses<T> {
 	 * @return
 	 */
 	public int size() {
-		return 0;
+		int size = 0;
+		for(LinkedEquivalenceClass<T> aClass : _classes) {
+			size += aClass.size();
+		}
+		return size;
 	}
 	
 	/**
@@ -48,7 +64,7 @@ public class EquivalenceClasses<T> {
 	 * @return
 	 */
 	public int numClasses() {
-		return 0;
+		return _classes.size();
 	}
 
 	/**
@@ -56,8 +72,13 @@ public class EquivalenceClasses<T> {
 	 * @param element
 	 * @return
 	 */
-	protected int IndexOfClass(T element) {
-		return 0;
+	protected int indexOfClass(T element) {
+		for(int i=0; i<_classes.size(); i++) {
+			if (_classes.get(i).contains(element)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	/**
