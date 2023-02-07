@@ -8,11 +8,13 @@ public class LinkedEquivalenceClass<T> {
 	LinkedList<T> _rest;
 	
 	public LinkedEquivalenceClass(Comparator<T> comparator) {
-		
+		_canonical = null;
+		_comparator = comparator;
+		// need to set _rest too
 	}
 	
 	public T canonical() {
-		
+		return _canonical;
 	}
 	
 	public boolean isEmpty() {
