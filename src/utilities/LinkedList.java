@@ -2,12 +2,12 @@ package utilities;
 
 public class LinkedList<T> {
 	// the list has sentinel nodes head and tail as well as a size
-	private Node _head;
-	private Node _tail;
-	private int _size;
+	protected Node _head;
+	protected Node _tail;
+	protected int _size;
 	
 	/**
-	 * each node has data in it and points to the node before it
+	 * each node has data in it and points to the node after it
 	 * @author Josh Berger
 	 */
 	private class Node {
@@ -36,8 +36,8 @@ public class LinkedList<T> {
 	 * default constructor creates a list with only the head pointing to the tail and a size of 0
 	 */
 	public LinkedList() {
-		_head = new Node(null, null);
-		_tail = new Node(null, null);
+		_head = new Node();
+		_tail = new Node();
 		_head._next = _tail;
 		_size = 0;
 	}

@@ -9,11 +9,12 @@ public class EquivalenceClasses<T> {
 	protected List<LinkedEquivalenceClass<T>> _classes;
 	
 	/**
-	 * 
-	 * @param comparatorNum
+	 * constructor passes in comparator
+	 * @param comparator
 	 */
-	public EquivalenceClasses(Comparator<T> comparatorNum) {
-		
+	public EquivalenceClasses(Comparator<T> comparator) {
+		_comparator = comparator;
+		_classes = null;
 	}
 	
 	/**

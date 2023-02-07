@@ -71,7 +71,7 @@ public class LinkedEquivalenceClass<T> {
 	/**
 	 * check if it belongs in the list 
 	 * @param target
-	 * @return if the target belongs and is equal to the canonical variable
+	 * @return if the target belongs and is contained
 	 */
 	public boolean contains(T target) {
 		if (!belongs(target)) return false;
