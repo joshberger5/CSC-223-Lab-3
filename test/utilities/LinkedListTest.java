@@ -9,8 +9,7 @@ public class LinkedListTest {
 	void testConstructor() {
 		LinkedList<Integer> l = new LinkedList<Integer>();
 		
-		assertEquals(0, l.size());
-		assertTrue(l.isEmpty());
+		assertEquals("", l.toString());
 	}
 	
 	@Test
@@ -76,12 +75,62 @@ public class LinkedListTest {
 	void testRemove() {
 		LinkedList<Integer> l = new LinkedList<Integer>();
 		
-		l.addToFront(4);
+		// add some stuff to the list
 		l.addToFront(3);
 		l.addToFront(2);
 		l.addToFront(1);
+		l.addToBack(4);
 		
+		// check if it removes the last element
 		l.remove(4);
 		assertEquals("1 2 3", l.toString());
+		l.addToBack(4);
+		
+		// check if it removes the first element
+		l.remove(1);
+		assertEquals("2 3 4", l.toString());
+		l.addToFront(1);
+		
+		// checks to see if it handles null
+		l.remove(null);
+		assertEquals("1 2 3 4", l.toString());
+	}
+	
+	@Test
+	void testSize() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
+		// check that it returns that it has a size of 0 initially
+		assertEquals(0, l.size());
+		
+		// add some stuff to the list
+		l.addToFront(3);
+		l.addToFront(2);
+		l.addToFront(1);
+		l.addToBack(4);
+		
+		// checks that the size was properly updated after both add functions
+		assertEquals(4, l.size());
+		
+		// check that it works after remove
+		l.remove(3);
+		assertEquals(3, l.size());
+		
+		// checks that it works after clear
+		l.clear();
+		assertEquals(0, l.size());
+	}
+	
+	@Test
+	void testReverse() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
+		l.addToFront(3);
+		l.addToFront(2);
+		l.addToFront(1);
+		l.addToBack(4);
+		
+		l.reverse();
+		assertEquals("4 3 2 1", l.toString());
 	}
 }

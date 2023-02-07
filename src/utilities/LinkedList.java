@@ -141,14 +141,18 @@ public class LinkedList<T> {
 	
 	// reverses the list
 	public void reverse() {
-		reverse(0, _head._next, last());
+		if (_head._next == _tail || size() == 1) return;
+		reverse(_head._next, _tail, last());
 	}
 	
-	private void reverse(int reps, Node front, Node back) {
-		if (reps >= _size/2) return;
-		Node temp = front;
-		front = back;
-		back = temp;
-		reverse(reps+1, front._next, previous(back._data));
+	private void reverse(Node n, Node next, Node newFirst) {
+		if (n == newFirst) {
+			n._next = next;
+			return;
+		}
+		Node temp = n._next;
+		n._next = next;
+		_head._next = temp;
+		reverse(_head._next, n, newFirst);
 	}
 }
