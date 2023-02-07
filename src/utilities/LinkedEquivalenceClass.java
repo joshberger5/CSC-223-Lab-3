@@ -63,6 +63,10 @@ public class LinkedEquivalenceClass<T> {
 	 * @return whether the element was added
 	 */
 	public boolean add(T element) {
+		if (isEmpty()) {
+			_canonical = element;
+			return true;
+		}
 		if (!belongs(element)) return false;
 		_rest.addToFront(element);
 		return true;
@@ -98,22 +102,27 @@ public class LinkedEquivalenceClass<T> {
 	}
 	
 	/**
-	 * removes the canonical value if there is one
+	 * removes the canonical value if there is something to replace it with
 	 * @return whether the canonical variable was removed
 	 */
 	public boolean removeCanonical() {
-		if (_canonical == null) return false;
-		_canonical = null;
+		if (_rest.isEmpty()) return false;
+		_canonical = _rest.pop_front();
 		return true;
 	}
 	
 	/**
-	 * sets a canonical value if there is one
+	 * if the element belongs in the list add it as the canonical and add the existing canonical to the list 
 	 * @param element
 	 * @return whether the canonical value was set
 	 */
 	public boolean demoteAndSetCanonical(T element) {
-		if (_canonical != null) return false;
+		if (_canonical == null && isEmpty()) {
+			_canonical = element;
+			return true;
+		}
+		if (!belongs(element)) return false;
+		add(_canonical);
 		_canonical = element;
 		return true;
 	}
@@ -122,6 +131,10 @@ public class LinkedEquivalenceClass<T> {
 	 * makes the whole list a string
 	 */
 	public String toString() {
-		return _canonical + " " + _rest.toString();
+		String canonical = _canonical + "";
+		String rest = _rest.toString();
+		if (canonical == "" && rest == "") return "";
+		if (canonical != "" && rest == "") return canonical;
+		return canonical + " " + rest;
 	}
 }

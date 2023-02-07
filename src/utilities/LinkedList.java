@@ -208,4 +208,8 @@ public class LinkedList<T> {
 		_head._next = temp;
 		reverse(_head._next, n, newFirst);
 	}
+	
+	public T pop_front() {
+		return _head._next._data;
+	}
 }
