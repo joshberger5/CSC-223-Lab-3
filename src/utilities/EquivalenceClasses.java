@@ -8,30 +8,60 @@ public class EquivalenceClasses<T> {
 	protected Comparator<T> _comparator;
 	protected List<LinkedEquivalenceClass<T>> _classes;
 	
+	/**
+	 * 
+	 * @param comparatorNum
+	 */
 	public EquivalenceClasses(Comparator<T> comparatorNum) {
 		
 	}
 	
+	/**
+	 * 
+	 * @param element
+	 * @return
+	 */
 	public boolean add(T element) {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param target
+	 * @return
+	 */
 	public boolean contains(T target) {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public int size() {
 		return 0;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public int numClasses() {
 		return 0;
 	}
 
+	/**
+	 * 
+	 * @param element
+	 * @return
+	 */
 	protected int IndexOfClass(T element) {
 		return 0;
 	}
-
+	
+	/**
+	 * Returns a string representation of the object.
+	 */
 	public String toString() {
 		return null;
 	}

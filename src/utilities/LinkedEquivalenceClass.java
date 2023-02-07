@@ -19,7 +19,7 @@ public class LinkedEquivalenceClass<T> {
 	
 	/**
 	 * returns the canonical variable
-	 * @return
+	 * @return the canonical variable
 	 */
 	public T canonical() {
 		return _canonical;
@@ -27,7 +27,7 @@ public class LinkedEquivalenceClass<T> {
 	
 	/**
 	 * returns if there is no canonical and no rest of the list
-	 * @return
+	 * @return if it is empty
 	 */
 	public boolean isEmpty() {
 		return (_canonical == null && _rest.isEmpty());
@@ -50,7 +50,7 @@ public class LinkedEquivalenceClass<T> {
 	
 	/**
 	 * returns the size of the rest of the list and the canonical
-	 * @return
+	 * @return the size of the rest plus the canonical
 	 */
 	public int size() {
 		if (_canonical == null) return _rest.size();
@@ -60,7 +60,7 @@ public class LinkedEquivalenceClass<T> {
 	/**
 	 * if the element belongs in the list add it to the front of the rest of the list
 	 * @param element
-	 * @return
+	 * @return whether the element was added
 	 */
 	public boolean add(T element) {
 		if (!belongs(element)) return false;
@@ -71,7 +71,7 @@ public class LinkedEquivalenceClass<T> {
 	/**
 	 * check if it belongs in the list 
 	 * @param target
-	 * @return
+	 * @return if the target belongs and is equal to the canonical variable
 	 */
 	public boolean contains(T target) {
 		if (!belongs(target)) return false;
@@ -81,16 +81,16 @@ public class LinkedEquivalenceClass<T> {
 	/**
 	 * check if it is equivalent to the canonical
 	 * @param target
-	 * @return
+	 * @return if the target belongs
 	 */
 	public boolean belongs(T target) {
 		return (_comparator.compare(_canonical, target) == 0);
 	}
 	
 	/**
-	 * 
+	 * if the element belongs in the list remove it from the rest of the list
 	 * @param target
-	 * @return
+	 * @return whether the target was removed
 	 */
 	public boolean remove(T target) {
 		if (!belongs(target)) return false;
@@ -99,7 +99,7 @@ public class LinkedEquivalenceClass<T> {
 	
 	/**
 	 * removes the canonical value if there is one
-	 * @return
+	 * @return whether the canonical variable was removed
 	 */
 	public boolean removeCanonical() {
 		if (_canonical == null) return false;
@@ -110,7 +110,7 @@ public class LinkedEquivalenceClass<T> {
 	/**
 	 * sets a canonical value if there is one
 	 * @param element
-	 * @return
+	 * @return whether the canonical value was set
 	 */
 	public boolean demoteAndSetCanonical(T element) {
 		if (_canonical != null) return false;
