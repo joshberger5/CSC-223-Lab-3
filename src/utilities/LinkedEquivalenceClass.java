@@ -67,7 +67,7 @@ public class LinkedEquivalenceClass<T> {
 			_canonical = element;
 			return true;
 		}
-		if (!belongs(element) || _rest.contains(element) || _comparator.equals(element)) return false;
+		if (!belongs(element) || _rest.contains(element) || _canonical.equals(element)) return false;
 		_rest.addToFront(element);
 		return true;
 	}
@@ -123,8 +123,9 @@ public class LinkedEquivalenceClass<T> {
 		}
 		if (!belongs(element) || _canonical.equals(element)) return false;
 		_rest.remove(element);
-		add(_canonical);
+		T temp = _canonical;
 		_canonical = element;
+		add(temp);
 		return true;
 	}
 	

@@ -28,22 +28,38 @@ public class LinkedEquivalenceClassTest {
 	}
 	
 	@Test
-	void demoteAndSetCanonicalTest() {
+	void testDemoteAndSetCanonical() {
 		Comparator<Integer> c = setComparatorDivBy5();
 		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(c);
 		
 		// adding an element to an empty list should make it the canonical
-		e.add(new Integer(5));
-		assertTrue(e.canonical().equals(new Integer(5)));
+		e.add(5);
+		assertTrue(e.canonical().equals(5));
 		assertEquals("5", e.toString());
 		
 		// demoting and setting an element should replace the current canonical and add it to rest
-		e.demoteAndSetCanonical(new Integer(10));
+		e.demoteAndSetCanonical(10);
 		assertEquals("10 | 5", e.toString());
 		
 		// makes sure it works after clearing the list
 		e.clear();
-		e.demoteAndSetCanonical(new Integer(5));
-		assertTrue(e.canonical().equals(new Integer(5)));
+		e.demoteAndSetCanonical(5);
+		assertTrue(e.canonical().equals(5));
+	}
+	
+	@Test
+	void testAdd() {
+		Comparator<Integer> c = setComparatorDivBy5();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(c);
+		
+		// already tested adding to an empty list making it the canonical in testDemoteAndSetCanonical
+		// so I'll test adding a second element
+		e.add(5);
+		e.add(10);
+		assertEquals("5 | 10", e.toString());
+		
+		// check that it prevents adding something to the list that equals the canonical
+		e.add(5);
+		assertEquals("5 | 10", e.toString());
 	}
 }
