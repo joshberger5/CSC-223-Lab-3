@@ -117,7 +117,7 @@ public class LinkedEquivalenceClass<T> {
 	 * @return whether the canonical value was set
 	 */
 	public boolean demoteAndSetCanonical(T element) {
-		if (_canonical == null && isEmpty()) {
+		if (isEmpty()) {
 			_canonical = element;
 			return true;
 		}
@@ -135,6 +135,6 @@ public class LinkedEquivalenceClass<T> {
 		String rest = _rest.toString();
 		if (canonical == "" && rest == "") return "";
 		if (canonical != "" && rest == "") return canonical;
-		return canonical + " " + rest;
+		return canonical + " | " + rest;
 	}
 }

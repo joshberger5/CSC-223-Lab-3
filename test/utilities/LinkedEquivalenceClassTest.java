@@ -7,6 +7,7 @@ import java.util.Comparator;
 import org.junit.jupiter.api.Test;
 
 public class LinkedEquivalenceClassTest {
+	// the comparator means that the list is either divisible by 5 or not
 	Comparator<Integer> setComparatorDivBy5() {
 		return new Comparator<Integer>() {
 			// they are equivalent if they are both multiples of 5
@@ -19,9 +20,9 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testConstructor() {
 		Comparator<Integer> c = setComparatorDivBy5();
-		
 		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(c);
 		
+		// makes sure everything is empty
 		assertTrue(e.canonical() == null);
 		assertTrue(e.isEmpty());
 	}
@@ -29,11 +30,19 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void demoteAndSetCanonicalTest() {
 		Comparator<Integer> c = setComparatorDivBy5();
-		
 		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(c);
 		
-		Integer five = 5;
-		e.add(5);
-		assertTrue(e.canonical() == five);
+		// adding an element to an empty list should make it the canonical
+		e.add(new Integer(5));
+		assertTrue(e.canonical().equals(new Integer(5)));
+		assertEquals("5", e.toString());
+		
+		// demoting and setting an element should replace the current canonical and add it to rest
+		e.demoteAndSetCanonical(new Integer(10));
+		assertEquals("10 | 5", e.toString());
+		
+		e.clear();
+		e.demoteAndSetCanonical(new Integer(5));
+		assertTrue(e.canonical().equals(new Integer(5)));
 	}
 }
