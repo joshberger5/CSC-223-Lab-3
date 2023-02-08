@@ -129,7 +129,7 @@ public class LinkedList<T> {
 	}
 	
 	private Node previous(T target, Node node) {
-		if (node == _tail || node == null) return null;
+		if (node == _tail || node == null || node._next == _tail) return null;
 		if (node._next._data.equals(target)) return node;
 		return previous(target, node._next);
 	}
@@ -142,9 +142,11 @@ public class LinkedList<T> {
 	public boolean remove(T target) {
 		if (target != null) {
 			Node p = previous(target);
-			p._next = p._next._next;
-			_size--;
-			return true;
+			if (p != null) {
+				p._next = p._next._next;
+				_size--;
+				return true;
+			}
 		}
 		return false;
 	}

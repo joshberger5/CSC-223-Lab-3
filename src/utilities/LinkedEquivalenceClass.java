@@ -58,7 +58,7 @@ public class LinkedEquivalenceClass<T> {
 	}
 	
 	/**
-	 * if the element belongs in the list add it to the front of the rest of the list
+	 * if the element belongs in the list and isn't in it add it to the front of the rest of the list
 	 * @param element
 	 * @return whether the element was added
 	 */
@@ -67,7 +67,7 @@ public class LinkedEquivalenceClass<T> {
 			_canonical = element;
 			return true;
 		}
-		if (!belongs(element)) return false;
+		if (!belongs(element) || _rest.contains(element) || _comparator.equals(element)) return false;
 		_rest.addToFront(element);
 		return true;
 	}
@@ -121,7 +121,8 @@ public class LinkedEquivalenceClass<T> {
 			_canonical = element;
 			return true;
 		}
-		if (!belongs(element)) return false;
+		if (!belongs(element) || _canonical.equals(element)) return false;
+		_rest.remove(element);
 		add(_canonical);
 		_canonical = element;
 		return true;

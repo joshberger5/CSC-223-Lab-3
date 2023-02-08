@@ -41,6 +41,7 @@ public class LinkedEquivalenceClassTest {
 		e.demoteAndSetCanonical(new Integer(10));
 		assertEquals("10 | 5", e.toString());
 		
+		// makes sure it works after clearing the list
 		e.clear();
 		e.demoteAndSetCanonical(new Integer(5));
 		assertTrue(e.canonical().equals(new Integer(5)));

@@ -92,8 +92,13 @@ public class LinkedListTest {
 		l.addToFront(1);
 		
 		// checks to see if it handles null
-		l.remove(null);
+		assertFalse(l.remove(null));
 		assertEquals("1 2 3 4", l.toString());
+		
+		// checks to see if it handles an element not in the list
+		assertFalse(l.remove(5));
+		assertEquals("1 2 3 4", l.toString());
+		
 	}
 	
 	@Test
