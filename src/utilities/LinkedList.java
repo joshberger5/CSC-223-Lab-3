@@ -83,6 +83,7 @@ public class LinkedList<T> {
 	 * @return whether the target is in the LinkedList
 	 */
 	public boolean contains(T target) {
+		if (target == null) return false;
 		return getIndex(target) > -1;
 	}
 	
@@ -92,7 +93,6 @@ public class LinkedList<T> {
 	 * @return the index of the target or -1 if not found
 	 */
 	private int getIndex(T target) {
-		if (target == null) return -1;
 		return getIndex(target, _head._next, 0);
 	}
 	
@@ -100,22 +100,6 @@ public class LinkedList<T> {
 		if (node == _tail || node == null) return -1;
 		if (node._data.equals(target)) return index;
 		return getIndex(target, node._next, index+1);
-	}
-	
-	/**
-	 * returns the matching node in the list to the passed in target
-	 * @param target
-	 * @return node equivalent to target from LinkedList
-	 */
-	private Node findNode(T target) {
-		if (target == null) return null;
-		return findNode(target, _head._next);
-	}
-	
-	private Node findNode(T target, Node node) {
-		if (node == _tail || node == null) return null;
-		if (node._data.equals(target)) return node;
-		return findNode(target, node._next);
 	}
 	
 	/**
