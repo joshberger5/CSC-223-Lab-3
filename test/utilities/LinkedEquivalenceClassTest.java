@@ -47,8 +47,8 @@ public class LinkedEquivalenceClassTest {
 	
 	@Test
 	void testConstructor() {
-		Comparator<Integer> c = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(c);
+		Comparator<Integer> f = setComparatorDivBy5();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
 		
 		// makes sure everything is empty
 		assertEquals(null, e.canonical());
@@ -58,8 +58,8 @@ public class LinkedEquivalenceClassTest {
 	
 	@Test
 	void testDemoteAndSetCanonical() {
-		Comparator<Integer> c = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(c);
+		Comparator<Integer> f = setComparatorDivBy5();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
 		
 		// adding an element to an empty list should make it the canonical
 		e.add(5);
@@ -78,8 +78,8 @@ public class LinkedEquivalenceClassTest {
 	
 	@Test
 	void testAdd() {
-		Comparator<Integer> c = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(c);
+		Comparator<Integer> f = setComparatorDivBy5();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
 		
 		// already tested adding to an empty list making it the canonical in testDemoteAndSetCanonical
 		// so I'll test adding a second element
@@ -186,14 +186,14 @@ public class LinkedEquivalenceClassTest {
 		Comparator<String> p = setComparatorPalindrome();
 		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
 		
-		// check that it returns false when the list is empty
+		// checks that it returns false when the list is empty
 		assertFalse(e.contains("madam"));
-		e.add("madam");
 		
-		// check that it returns true when it matches canonical
+		// checks that it returns true when it matches canonical
+		e.add("madam");
 		assertTrue(e.contains("madam"));
 		
-		// check that it returns true when it matches something in the rest of the list
+		// checks that it returns true when it matches something in the rest of the list
 		e.add("rotator");
 		assertTrue(e.contains("rotator"));
 		
@@ -205,5 +205,31 @@ public class LinkedEquivalenceClassTest {
 		
 		// checks that it returns false when null is passed in
 		assertFalse(e.contains(null));
+	}
+	
+	@Test
+	void testRemove() {
+		Comparator<String> c = setComparatorCapitalized();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+		
+		// checks that it handles null input 
+		assertFalse(e.remove(null));
+		
+		// checks that it returns false when the list is empty
+		assertFalse(e.remove("Hello"));
+		e.add("Hello");
+		
+		// checks that it returns false when trying to remove the canonical
+		assertFalse(e.remove("Hello"));
+		
+		// checks that it returns false when trying to remove something that doesn't belong
+		assertFalse(e.remove("goodbye"));
+		
+		// checks that it returns false when trying to remove something that does belong but isn't in the list
+		assertFalse(e.remove("Goodbye"));
+		
+		// checks that it returns true when removing something in the list and obviously belongs
+		e.add("Goodbye");
+		assertTrue(e.remove("Goodbye"));
 	}
 }
