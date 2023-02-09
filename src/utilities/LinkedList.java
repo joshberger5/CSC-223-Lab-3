@@ -212,6 +212,9 @@ public class LinkedList<T> {
 	}
 	
 	public T pop_front() {
-		return _head._next._data;
+		T temp = _head._next._data;
+		_head._next = _head._next._next;
+		_size--;
+		return temp;
 	}
 }

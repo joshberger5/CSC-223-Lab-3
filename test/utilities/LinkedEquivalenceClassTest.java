@@ -41,8 +41,9 @@ public class LinkedEquivalenceClassTest {
 		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(c);
 		
 		// makes sure everything is empty
-		assertTrue(e.canonical() == null);
+		assertEquals(null, e.canonical());
 		assertTrue(e.isEmpty());
+		assertEquals(0, e.size());
 	}
 	
 	@Test
@@ -94,7 +95,12 @@ public class LinkedEquivalenceClassTest {
 		Comparator<String> p = setComparatorPalindrome();
 		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
 		
+		// clear the rest of the list when it isn't populated yet
 		e.add("deified");
+		e.clearNonCanonical();
+		assertEquals("deified", e.toString());
+		
+		// clear the rest of the list when it is populated
 		e.add("civic");
 		e.add("refer");
 		e.clearNonCanonical();
@@ -106,10 +112,43 @@ public class LinkedEquivalenceClassTest {
 		Comparator<String> p = setComparatorPalindrome();
 		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
 		
-		e.add("deified");
-		e.add("civic");
-		e.add("refer");
+		// clear everything when there isn't anything there
 		e.clear();
 		assertEquals("", e.toString());
+		
+		// clear everything when there is stuff there
+		e.add("pop");
+		e.add("testset");
+		e.add("noon");
+		e.clear();
+		assertEquals("", e.toString());
+	}
+	
+	@Test 
+	void testSize() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		
+		// already tested size when its empty so I'll skip it here
+		// checks the size is 1 when there is only a canonical element
+		e.add("aibohphobia");
+		assertEquals(1, e.size());
+		
+		// checks the size goes up to 3 when you add 2 to the rest of the list
+		e.add("poop");
+		e.add("redder");
+		assertEquals(3, e.size());
+		
+		// checks the size goes up 1 after demoteAndSetCanonical
+		e.demoteAndSetCanonical("wow");
+		assertEquals(4, e.size());
+		
+		// checks the size goes down 1 after removing the canonical
+		e.removeCanonical();
+		assertEquals(3, e.size());
+		
+		// checks the size goes down 1 after removing an element
+		e.remove("poop");
+		assertEquals(2, e.size());
 	}
 }
