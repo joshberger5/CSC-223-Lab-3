@@ -58,7 +58,7 @@ public class EquivalenceClasses<T> {
 	 * @return whether the element was added
 	 */
 	public boolean add(T element) {
-		if(element == null || _comparator == null) return false;
+		if (element == null || _comparator == null) return false;
 		return addToEquivalenceClass(element) ? true :
 			   contains(element) ? false : createNewEquivalenceClass(element);
 	}
