@@ -10,6 +10,40 @@ public class EquivalenceClasses<T> {
 	protected List<LinkedEquivalenceClass<T>> _classes;
 	
 	/**
+	 * adds an element to an appropriate equivalence list based on the comparator
+	 * @param element
+	 * @return whether the element was added
+	 */
+	public boolean add(T element) {
+		return !addToEquivalenceClass(element) ? createNewEquivalenceClass(element) : true;
+	}
+
+	/**
+	 * creates a new equivalence class with the element
+	 * @param element
+	 * @return whether the class was created
+	 */
+	private boolean createNewEquivalenceClass(T element) {
+		LinkedEquivalenceClass<T> equivalence = new LinkedEquivalenceClass<T>(_comparator);
+		equivalence.add(element);
+		return _classes.add(equivalence);
+	}
+
+	/**
+	 * Adds element to preexisting equivalence class
+	 * @param element
+	 * @return whether the element was added
+	 */
+	private boolean addToEquivalenceClass(T element) {
+		for(LinkedEquivalenceClass<T> aClass : _classes) {
+			if(aClass.add(element)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * constructor that retrieves a comparator
 	 * @param comparator
 	 */
@@ -19,37 +53,17 @@ public class EquivalenceClasses<T> {
 	}
 	
 	/**
-	 * adds an element to an appropriate equivalence list based on the comparator
-	 * @param element
-	 * @return
-	 */
-	public boolean add(T element) {
-		// adds to existing equivalence class
-		for(LinkedEquivalenceClass<T> aClass : _classes) {
-			if(aClass.add(element)) {
-				return true;
-			}
-		}
-		// creates new equivalence class containing element
-		LinkedEquivalenceClass<T> equivalence = new LinkedEquivalenceClass<T>(_comparator);
-		if(!equivalence.add(element)) {
-			return false;
-		}
-		return _classes.add(equivalence);
-	}
-	
-	/**
-	 * 
+	 * Determines whether one of the equivalence lists contained the target element
 	 * @param target
-	 * @return
+	 * @return whether the target element was contained
 	 */
 	public boolean contains(T target) {
 		return indexOfClass(target) > -1;
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * finds size of the EquivalenceClasses
+	 * @return total size of all equivalence classes
 	 */
 	public int size() {
 		int size = 0;
@@ -60,17 +74,17 @@ public class EquivalenceClasses<T> {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * finds the number of equivalences classes contained
+	 * @return the number of equivalences classes
 	 */
 	public int numClasses() {
 		return _classes.size();
 	}
 
 	/**
-	 * 
+	 * finds the index of the class that has element
 	 * @param element
-	 * @return
+	 * @return index of class containing element or -1 if not found
 	 */
 	protected int indexOfClass(T element) {
 		for(int i=0; i<_classes.size(); i++) {
@@ -85,7 +99,12 @@ public class EquivalenceClasses<T> {
 	 * Returns a string representation of the object.
 	 */
 	public String toString() {
-		return null;
+		StringBuilder output = new StringBuilder();
+		output.append("Classes: ");
+		for(LinkedEquivalenceClass<T> aClass : _classes) {
+			output.append(aClass + ", ");
+		}
+		return output.toString();
 	}
 	
 }
