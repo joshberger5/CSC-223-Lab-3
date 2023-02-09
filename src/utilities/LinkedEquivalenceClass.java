@@ -88,6 +88,8 @@ public class LinkedEquivalenceClass<T> {
 	 * @return if the target belongs
 	 */
 	public boolean belongs(T target) {
+		if (isEmpty()) return true;
+		if (target == null) return false;
 		return (_comparator.compare(_canonical, target) == 0);
 	}
 	
@@ -97,7 +99,7 @@ public class LinkedEquivalenceClass<T> {
 	 * @return whether the target was removed
 	 */
 	public boolean remove(T target) {
-		if (!belongs(target)) return false;
+		if (target != null && !belongs(target)) return false;
 		return _rest.remove(target);
 	}
 	

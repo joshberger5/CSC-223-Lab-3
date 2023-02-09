@@ -151,4 +151,23 @@ public class LinkedEquivalenceClassTest {
 		e.remove("poop");
 		assertEquals(2, e.size());
 	}
+	
+	@Test
+	void testBelongs() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		
+		// if there is nothing in the list, then anything should belong
+		assertTrue(e.belongs("aibohphobia"));
+		e.add("aibohphobia");
+		
+		// makes sure that it returns true when checking the belonging of an equivalent element
+		assertTrue(e.belongs("kayak"));
+		
+		// makes sure that it returns false when checking the belonging of a non-equivalent element
+		assertFalse(e.belongs("hello"));
+		
+		// makes sure it returns false for null
+		assertFalse(e.belongs(null));
+	}
 }
