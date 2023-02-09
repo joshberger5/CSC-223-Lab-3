@@ -16,14 +16,6 @@ public class EquivalenceClassesTest {
 		};
 	}
 	
-	private Comparator<Integer> setComparatorNullGroup() {
-		return new Comparator<Integer>() {
-			public int compare(Integer x, Integer y) { 
-				return (x == null) == (y == null) ? 0 : 1;
-			}
-		};
-	}
-	
 	@Test
 	void equivalenceClassesExistTest() {
 		Comparator<Integer> compare = setComparatorMod5Group();
@@ -300,7 +292,7 @@ public class EquivalenceClassesTest {
 	
 	@Test
 	void indexOfClassNullValueTest() {
-		Comparator<Integer> compare = setComparatorNullGroup();
+		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
 		aClass.add(null);
 		
