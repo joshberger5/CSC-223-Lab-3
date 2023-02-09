@@ -133,10 +133,8 @@ public class LinkedEquivalenceClass<T> {
 	 * makes the whole list a string
 	 */
 	public String toString() {
-		String canonical = _canonical + "";
-		String rest = _rest.toString();
-		if (canonical == "" && rest == "") return "";
-		if (canonical != "" && rest == "") return canonical;
-		return canonical + " | " + rest;
+		if (isEmpty()) return "";
+		if (_rest.isEmpty()) return _canonical + "";
+		return _canonical + " | " + _rest.toString();
 	}
 }
