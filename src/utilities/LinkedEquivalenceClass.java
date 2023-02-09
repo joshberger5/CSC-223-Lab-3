@@ -99,7 +99,7 @@ public class LinkedEquivalenceClass<T> {
 	 * @return whether the target was removed
 	 */
 	public boolean remove(T target) {
-		if (target != null && !belongs(target)) return false;
+		if (target == null || !belongs(target)) return false;
 		return _rest.remove(target);
 	}
 	
