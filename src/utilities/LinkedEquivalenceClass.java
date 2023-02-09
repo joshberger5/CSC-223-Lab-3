@@ -1,3 +1,11 @@
+/**
+* Creates a class for an object LinkedEquivalenceClass
+*
+* <p>Bugs: none known
+*
+* @author Josh Berger and Jake Shore
+* @date 2/13/2023
+*/
 package utilities;
 
 import java.util.Comparator;
