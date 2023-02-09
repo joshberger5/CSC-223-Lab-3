@@ -78,7 +78,7 @@ public class LinkedEquivalenceClass<T> {
 	 * @return if the target belongs and is contained
 	 */
 	public boolean contains(T target) {
-		if (!belongs(target)) return false;
+		if (_canonical == null || !belongs(target)) return false;
 		return (_canonical.equals(target) || _rest.contains(target));
 	}
 	
