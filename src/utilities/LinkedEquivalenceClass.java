@@ -73,7 +73,7 @@ public class LinkedEquivalenceClass<T> {
 	}
 	
 	/**
-	 * check if it belongs in the list 
+	 * check if the target is in the list 
 	 * @param target
 	 * @return if the target belongs and is contained
 	 */
