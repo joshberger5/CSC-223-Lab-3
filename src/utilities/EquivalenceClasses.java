@@ -10,14 +10,14 @@ public class EquivalenceClasses<T> {
 	protected List<LinkedEquivalenceClass<T>> _classes;
 	
 	/**
-	 * adds an element to an appropriate equivalence list based on the comparator
-	 * @param element
-	 * @return whether the element was added
+	 * constructor that retrieves a comparator
+	 * @param comparator
 	 */
-	public boolean add(T element) {
-		return !addToEquivalenceClass(element) ? createNewEquivalenceClass(element) : true;
+	public EquivalenceClasses(Comparator<T> comparator) {
+		_comparator = comparator;
+		_classes = new ArrayList<LinkedEquivalenceClass<T>>();
 	}
-
+	
 	/**
 	 * creates a new equivalence class with the element
 	 * @param element
@@ -44,21 +44,21 @@ public class EquivalenceClasses<T> {
 	}
 	
 	/**
-	 * constructor that retrieves a comparator
-	 * @param comparator
-	 */
-	public EquivalenceClasses(Comparator<T> comparator) {
-		_comparator = comparator;
-		_classes = new ArrayList<LinkedEquivalenceClass<T>>();
-	}
-	
-	/**
 	 * Determines whether one of the equivalence lists contained the target element
 	 * @param target
 	 * @return whether the target element was contained
 	 */
 	public boolean contains(T target) {
 		return indexOfClass(target) > -1;
+	}
+	
+	/**
+	 * adds an element to an appropriate equivalence list based on the comparator
+	 * @param element
+	 * @return whether the element was added
+	 */
+	public boolean add(T element) {
+		return addToEquivalenceClass(element) ? true : createNewEquivalenceClass(element);
 	}
 	
 	/**
@@ -100,9 +100,9 @@ public class EquivalenceClasses<T> {
 	 */
 	public String toString() {
 		StringBuilder output = new StringBuilder();
-		output.append("Classes: ");
+		output.append("Classes:\n");
 		for(LinkedEquivalenceClass<T> aClass : _classes) {
-			output.append(aClass + ", ");
+			output.append(aClass + "\n");
 		}
 		return output.toString();
 	}
