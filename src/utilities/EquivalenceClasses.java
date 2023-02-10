@@ -4,6 +4,16 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * holds elements in different comparator classes based upon how they
+ * compare to some condition.
+ * 
+ * <p>Bugs: none known
+ * 
+ * @author Me
+ * @date 2/9/2023
+ * @param <T>
+ */
 public class EquivalenceClasses<T> {
 
 	protected Comparator<T> _comparator;

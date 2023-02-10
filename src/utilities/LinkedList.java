@@ -1,13 +1,14 @@
-/**
-* Creates a class for an object LinkedList
-*
-* <p>Bugs: none known
-*
-* @author Josh Berger and Jake Shore
-* @date 2/13/2023
-*/
 package utilities;
 
+/**
+ * A list composed of nodes pointing at the next index
+ * 
+ * <p>Bugs: none known
+ *
+ * @author Josh Berger and Jake Shore
+ * @date 2/13/2023
+ * @param <T>
+ */
 public class LinkedList<T> {
 	// the list has sentinel nodes head and tail as well as a size
 	protected Node _head;
@@ -16,7 +17,8 @@ public class LinkedList<T> {
 	
 	/**
 	 * each node has data in it and points to the node after it
-	 * @author Josh Berger
+	 * @author Josh Berger and Jake Shore
+	 * @date 2/13/2023
 	 */
 	private class Node {
 		private T _data;
