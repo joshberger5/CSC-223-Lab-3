@@ -43,201 +43,543 @@ public class LinkedEquivalenceClassTest {
 	}
 	
 	// this comparator mean that the list consists of only Strings that are capitalized or only ones that are not
-		private Comparator<String> setComparatorCapitalized() {
-			return new Comparator<String>() {
-				// they are equivalent if they are both capitalized or both not
-				public int compare(String a, String b) { 
-					return Character.isUpperCase(a.charAt(0)) == Character.isUpperCase(b.charAt(0)) ? 0 : 1;
-				}
-			};
-		}
+	private Comparator<String> setComparatorCapitalized() {
+		return new Comparator<String>() {
+			// they are equivalent if they are both capitalized or both not
+			public int compare(String a, String b) { 
+				return Character.isUpperCase(a.charAt(0)) == Character.isUpperCase(b.charAt(0)) ? 0 : 1;
+			}
+		};
+	}
 	
-	
+	// makes sure the constructor works and everything is empty
 	@Test
 	void testConstructor() {
 		Comparator<Integer> f = setComparatorDivBy5();
 		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
 		
-		// makes sure everything is empty
-		assertEquals(null, e.canonical());
+		assertEquals("", e.toString());
+	}
+	
+	// makes sure that isEmpty returns true when the list is empty
+	@Test
+	void testIsEmptyWhenEmpty() {
+		Comparator<String> c = setComparatorCapitalized();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+		
 		assertTrue(e.isEmpty());
-		assertEquals(0, e.size());
 	}
 	
+	// makes sure that isEmpty returns false when the list has a canonical
 	@Test
-	void testDemoteAndSetCanonical() {
+	void testIsEmptyWhenUnempty() {
+		Comparator<String> c = setComparatorCapitalized();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+		
+		e.add("Whatever");
+		
+		assertFalse(e.isEmpty());
+	}
+	
+	// makes sure that add handles null input
+	@Test
+	void testAddNull() {
 		Comparator<Integer> f = setComparatorDivBy5();
 		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
 		
-		// adding an element to an empty list should make it the canonical
-		e.add(5);
-		assertTrue(e.canonical().equals(5));
+		assertFalse(e.add(null));
+	}	
+	
+	// makes sure that when the list is empty and you call add, it adds as the canonical
+	// and returns true
+	@Test
+	void testAddFirst() {
+		Comparator<Integer> f = setComparatorDivBy5();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		
+		assertTrue(e.add(5));
 		assertEquals("5", e.toString());
-		
-		// demoting and setting an element should replace the current canonical and add it to rest
-		e.demoteAndSetCanonical(10);
-		assertEquals("10 | 5", e.toString());
-		
-		// makes sure it works after clearing the list
-		e.clear();
-		e.demoteAndSetCanonical(5);
-		assertTrue(e.canonical().equals(5));
 	}
 	
+	// makes sure that adding something that belongs when there is just a canonical:
+	// adds it to the rest of the list
+	// and returns true
 	@Test
-	void testAdd() {
+	void testAddSecondWhenBelongs() {
 		Comparator<Integer> f = setComparatorDivBy5();
 		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
 		
-		// already tested adding to an empty list making it the canonical in testDemoteAndSetCanonical
-		// so I'll test adding a second element
+		e.add(5);
+		
+		assertTrue(e.add(10));
+		assertEquals("5 | 10", e.toString());
+	}
+	
+	// makes sure that adding something that doesn't belong when there is just a canonical
+	// adds it to the rest of the list
+	// and returns true
+	@Test
+	void testAddSecondWhenDoesntBelong() {
+		Comparator<Integer> f = setComparatorDivBy5();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+			
+		e.add(5);
+		
+		assertFalse(e.add(6));
+		assertEquals("5", e.toString());
+	}
+	
+	// makes sure that adding a repeat of the canonical doesn't work
+	@Test
+	void testAddCanonicalRepeat() {
+		Comparator<Integer> f = setComparatorDivBy5();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		
+		e.add(5);
+		e.add(50);
+		e.add(40);
+		e.add(30);
+		e.add(20);
+		e.add(10);
+		
+		assertFalse(e.add(5));
+		assertEquals("5 | 10 20 30 40 50", e.toString());
+	}
+	
+	// makes sure that adding a repeat to something in the rest of the list doesn't work
+	@Test
+	void testAddRepeat() {
+		Comparator<Integer> f = setComparatorDivBy5();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+			
+		e.add(5);
+		e.add(50);
+		e.add(40);
+		e.add(30);
+		e.add(20);
+		e.add(10);
+			
+		assertFalse(e.add(50));
+		assertEquals("5 | 10 20 30 40 50", e.toString());
+	}
+	
+	// makes sure that canonical returns null when the list is empty
+	@Test
+	void testCanonicalWhenEmpty() {
+		Comparator<Integer> f = setComparatorDivBy5();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		
+		assertEquals(null, e.canonical());
+	}
+	
+	// makes sure that canonical returns the canonical and not other elements
+	@Test
+	void testCanonicalWhenUempty() {
+		Comparator<Integer> f = setComparatorDivBy5();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+			
 		e.add(5);
 		e.add(10);
-		assertEquals("5 | 10", e.toString());
+		e.add(20);
+		e.add(30);
 		
-		// adding a second element to rest
-		e.add(15);
-		assertEquals("5 | 15 10", e.toString());
-		
-		// check that it prevents adding something to the list that equals the canonical
-		e.add(5);
-		assertEquals("5 | 15 10", e.toString());
-		
-		// check that it prevents adding something to the list that isn't equalivalent
-		e.add(6);
-		assertEquals("5 | 15 10", e.toString());
+		assertEquals(5, e.canonical());
 	}
 	
-	@Test 
-	void testClearNonCanonical() {
+	// makes sure that calling DemoteAndSetCanonical with an empty list returns false
+	// since there's nothing to demote
+	@Test
+	void testDemoteAndSetCanonicalEmpty() {
+		Comparator<Integer> f = setComparatorDivBy5();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		
+		assertFalse(e.demoteAndSetCanonical(5));
+	}
+	
+	// makes sure that it works when there is just a canonical and the new one belongs
+	@Test
+	void testDemoteAndSetCanonicalJustCanonicalAndBelongs() {
+		Comparator<Integer> f = setComparatorDivBy5();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		
+		e.add(10);
+		
+		assertTrue(e.demoteAndSetCanonical(5));
+		assertEquals("5 | 10", e.toString());
+	}
+	
+	// makes sure that it works when there is a canonical and stuff in the rest and the new one belongs
+	@Test
+	void testDemoteAndSetCanonicalMoreThanJustCanonicalAndBelongs() {
+		Comparator<Integer> f = setComparatorDivBy5();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+			
+		e.add(10);
+		e.add(15);
+		
+		assertTrue(e.demoteAndSetCanonical(5));
+		assertEquals("5 | 10 15", e.toString());
+	}
+	
+	// makes sure that it returns false when it doesn't belong
+	@Test
+	void testDemoteAndSetCanonicalDoesntBelong() {
+		Comparator<Integer> f = setComparatorDivBy5();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+			
+		e.add(10);
+		e.add(15);
+		
+		assertFalse(e.demoteAndSetCanonical(6));
+		assertEquals("10 | 15", e.toString());
+	}
+	
+	// makes sure that it handles null input
+	@Test
+	void testDemoteAndSetCanonicalNull() {
+		Comparator<Integer> f = setComparatorDivBy5();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+			
+		assertFalse(e.demoteAndSetCanonical(null));
+	}
+	
+	// makes sure that clear non-canonical doesn't break when its empty
+	@Test
+	void testClearNonCanonicalWhenEmpty() {
 		Comparator<String> p = setComparatorPalindrome();
 		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
 		
-		// clear the rest of the list when it isn't populated yet
-		e.add("deified");
 		e.clearNonCanonical();
-		assertEquals("deified", e.toString());
+		assertEquals("", e.toString());
+	}
+	
+	// makes sure that clear non-canonical:
+	// clears the rest of the list
+	// doesn't clear the canonical
+	@Test
+	void testClearNonCanonicalWhenPopulated() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
 		
-		// clear the rest of the list when it is populated
+		e.add("deified");
 		e.add("civic");
 		e.add("refer");
 		e.clearNonCanonical();
+		
 		assertEquals("deified", e.toString());
 	}
 	
+	// makes sure that clear doesn't break when the list is empty
 	@Test
-	void testClear() {
+	void testClearWhenEmpty() {
 		Comparator<String> p = setComparatorPalindrome();
 		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
 		
-		// clear everything when there isn't anything there
 		e.clear();
 		assertEquals("", e.toString());
-		
-		// clear everything when there is stuff there
+	}
+	
+	// makes sure that clear:
+	// clears the rest of the list
+	// clears the canonical
+	@Test
+	void testClearWhenPopulated() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+			
 		e.add("pop");
 		e.add("testset");
 		e.add("noon");
 		e.clear();
+			
 		assertEquals("", e.toString());
 	}
 	
-	@Test 
-	void testSize() {
+	// makes sure that checking the size when it is empty returns 0
+	@Test
+	void testSizeWhenEmpty() {
 		Comparator<String> p = setComparatorPalindrome();
 		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
 		
-		// already tested size when its empty so I'll skip it here
-		// checks the size is 1 when there is only a canonical element
+		assertEquals(0, e.size());
+	}
+	
+	// makes sure that checking the size when there is only a canonical returns 1
+	@Test
+	void testSizeForJustCanonical() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		
 		e.add("aibohphobia");
+		
 		assertEquals(1, e.size());
+	}
+	
+	// makes sure that checking the size works when there is more than a canonical
+	@Test
+	void testSizePopulated() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
 		
-		// checks the size goes up to 3 when you add 2 to the rest of the list
-		e.add("poop");
+		e.add("aibohphobia");
+		e.add("pop");
 		e.add("redder");
-		assertEquals(3, e.size());
 		
-		// checks the size goes up 1 after demoteAndSetCanonical
+		assertEquals(3, e.size());
+	}
+	
+	// makes sure that size increases after demote and set canonical
+	@Test
+	void testSizeDemoteAndSetCanonical() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		
+		e.add("aibohphobia");
+		e.add("pop");
+		e.add("redder");
 		e.demoteAndSetCanonical("wow");
+		
 		assertEquals(4, e.size());
+	}
+	
+	// makes sure that size decreases after removing the canonical
+	@Test
+	void testSizeRemoveCanonical() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
 		
-		// checks the size goes down 1 after removing the canonical
+		e.add("aibohphobia");
+		e.add("pop");
+		e.add("redder");
+		e.demoteAndSetCanonical("wow");
 		e.removeCanonical();
-		assertEquals(3, e.size());
 		
-		// checks the size goes down 1 after removing an element
-		e.remove("poop");
+		assertEquals(3, e.size());
+	}
+	
+	// makes sure that size decreases after removing a non-canonical
+	@Test
+	void testSizeRemove() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		
+		e.add("aibohphobia");
+		e.add("pop");
+		e.add("redder");
+		e.demoteAndSetCanonical("wow");
+		e.removeCanonical();
+		e.remove("pop");
+		
 		assertEquals(2, e.size());
 	}
 	
+	// makes sure if there is nothing in the list then belongs should automatically return true
 	@Test
-	void testBelongs() {
+	void testBelongsEmpty() {
 		Comparator<String> p = setComparatorPalindrome();
 		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
 		
-		// if there is nothing in the list, then anything should belong
 		assertTrue(e.belongs("stats"));
+	}
+	
+	// makes sure belongs returns true for equivalent elements
+	@Test
+	void testBelongsEquivalent() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+			
 		e.add("stats");
 		
-		// makes sure that it returns true when checking the belonging of an equivalent element
 		assertTrue(e.belongs("kayak"));
+	}
+	
+	// makes sure belongs returns false for elements that aren't equivalent
+	@Test
+	void testBelongsNotEquivalent() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+			
+		e.add("stats");
 		
-		// makes sure that it returns false when checking the belonging of a non-equivalent element
 		assertFalse(e.belongs("hello"));
+	}
+	
+	// makes sure that belongs returns false for null input
+	@Test
+	void testBelongsNull() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
 		
-		// makes sure it returns false for null
 		assertFalse(e.belongs(null));
 	}
 	
+	// makes sure that contains returns false for null
 	@Test
-	void testContains() {
+	void testContainsNull() {
 		Comparator<String> p = setComparatorPalindrome();
 		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
 		
-		// checks that it returns false when the list is empty
-		assertFalse(e.contains("madam"));
-		
-		// checks that it returns true when it matches canonical
-		e.add("madam");
-		assertTrue(e.contains("madam"));
-		
-		// checks that it returns true when it matches something in the rest of the list
-		e.add("rotator");
-		assertTrue(e.contains("rotator"));
-		
-		// checks that it returns false when it doesn't match canonical and isn't in rest of list but belongs
-		assertFalse(e.contains("yay"));
-		
-		// checks that it returns false when it doesn't match canonical and isn't in rest of list and doesn't belong
-		assertFalse(e.contains("hello"));
-		
-		// checks that it returns false when null is passed in
 		assertFalse(e.contains(null));
 	}
 	
+	// makes sure that contains returns false when the list is empty
 	@Test
-	void testRemove() {
+	void testContainsEmpty() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		
+		assertFalse(e.contains("madam"));
+	}
+	
+	// makes sure that contains returns true when the input matches the canonical
+	@Test
+	void testContainsCanonicalMatch() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		
+		e.add("madam");
+		
+		assertTrue(e.contains("madam"));
+	}
+	
+	// makes sure that contains returns true when the input matches a non-canonical
+	@Test
+	void testContainsMatch() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+			
+		e.add("madam");
+		e.add("rotator");
+			
+		assertTrue(e.contains("rotator"));
+	}
+	
+	// makes sure that contains returns false when the input:
+	// doens't match the canonical or a non-canonical
+	// but it does belong in the list
+	@Test
+	void testContainsDoesntMatchButBelongs() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+			
+		e.add("madam");
+		e.add("rotator");
+			
+		assertFalse(e.contains("yay"));
+	}
+	
+	// makes sure that contains returns false when the input:
+	// doens't match the canonical or a non-canonical
+	// and it doesn't belong in the list
+	@Test
+	void testContainsDoesntMatchDoesntBelong() {
+		Comparator<String> p = setComparatorPalindrome();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+			
+		e.add("madam");
+		e.add("rotator");
+			
+		assertFalse(e.contains("hello"));
+	}
+	
+	// makes sure that remove returns false for null input
+	@Test
+	void testRemoveNull() {
 		Comparator<String> c = setComparatorCapitalized();
 		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
 		
-		// checks that it handles null input 
 		assertFalse(e.remove(null));
-		
-		// checks that it returns false when the list is empty
+	}
+	
+	// makes sure that remove returns false when the list is empty
+	@Test
+	void testRemoveEmpty() {
+		Comparator<String> c = setComparatorCapitalized();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+
 		assertFalse(e.remove("Hello"));
+		assertEquals("", e.toString());
+	}
+	
+	// makes sure that remove returns false when trying to remove canonical
+	@Test
+	void testRemovePassingInCanonical() {
+		Comparator<String> c = setComparatorCapitalized();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+		
 		e.add("Hello");
 		
-		// checks that it returns false when trying to remove the canonical
 		assertFalse(e.remove("Hello"));
+		assertEquals("Hello", e.toString());
+	}
+	
+	// makes sure that remove returns false when trying to remove input that doesn't belong
+	@Test
+	void testRemoveDoesntBelong() {
+		Comparator<String> c = setComparatorCapitalized();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
 		
-		// checks that it returns false when trying to remove something that doesn't belong
+		e.add("Hello");
+
 		assertFalse(e.remove("goodbye"));
+		assertEquals("Hello", e.toString());
+	}
+	
+	// makes sure that remove returns false when trying to remove input that doesn't belong
+	@Test
+	void testRemoveBelongs() {
+		Comparator<String> c = setComparatorCapitalized();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+			
+		e.add("Hello");
+
+		assertFalse(e.remove("goodbye"));
+		assertEquals("Hello", e.toString());
+	}
+	
+	// makes sure that remove returns true when trying to remove a non-canonical
+	@Test
+	void testRemoveNonCanonical() {
+		Comparator<String> c = setComparatorCapitalized();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
 		
-		// checks that it returns false when trying to remove something that does belong but isn't in the list
-		assertFalse(e.remove("Goodbye"));
-		
-		// checks that it returns true when removing something in the list and obviously belongs
+		e.add("Hello");
 		e.add("Goodbye");
+		
 		assertTrue(e.remove("Goodbye"));
+		assertEquals("Hello", e.toString());
+	}
+	
+	// makes sure that remove canonical returns false when the list is empty
+	@Test
+	void testRemoveCanonicalWhenEmpty() {
+		Comparator<String> c = setComparatorCapitalized();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+		
+		assertFalse(e.removeCanonical());
+	}
+	
+	// makes sure that remove canonical returns false when there is only the canonical
+	@Test
+	void testRemoveCanonicalWithJustCanonical() {
+		Comparator<String> c = setComparatorCapitalized();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+			
+		e.add("Water");
+		
+		assertFalse(e.removeCanonical());
+	}
+	
+	// makes sure that remove canonical returns true when there is stuff to replace it
+	@Test
+	void testRemoveCanonicalWhenPopulated() {
+		Comparator<String> c = setComparatorCapitalized();
+		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+				
+		e.add("Water");
+		e.add("Fire");
+			
+		assertTrue(e.removeCanonical());
+		assertEquals("Fire", e.toString());
 	}
 }

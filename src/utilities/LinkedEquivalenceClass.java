@@ -72,6 +72,7 @@ public class LinkedEquivalenceClass<T> {
 	 * @return whether the element was added
 	 */
 	public boolean add(T element) {
+		if (element == null) return false;
 		if (isEmpty()) {
 			_canonical = element;
 			return true;
@@ -87,7 +88,7 @@ public class LinkedEquivalenceClass<T> {
 	 * @return if the target belongs and is contained
 	 */
 	public boolean contains(T target) {
-		if (_canonical == null || !belongs(target)) return false;
+		if (target == null || _canonical == null || !belongs(target)) return false;
 		return (_canonical.equals(target) || _rest.contains(target));
 	}
 	
@@ -97,8 +98,8 @@ public class LinkedEquivalenceClass<T> {
 	 * @return if the target belongs
 	 */
 	public boolean belongs(T target) {
-		if (isEmpty()) return true;
 		if (target == null) return false;
+		if (isEmpty()) return true;
 		return (_comparator.compare(_canonical, target) == 0);
 	}
 	
@@ -128,11 +129,7 @@ public class LinkedEquivalenceClass<T> {
 	 * @return whether the canonical value was set
 	 */
 	public boolean demoteAndSetCanonical(T element) {
-		if (isEmpty()) {
-			_canonical = element;
-			return true;
-		}
-		if (!belongs(element) || _canonical.equals(element)) return false;
+		if (element == null || isEmpty() || !belongs(element) || _canonical.equals(element)) return false;
 		_rest.remove(element);
 		T temp = _canonical;
 		_canonical = element;
