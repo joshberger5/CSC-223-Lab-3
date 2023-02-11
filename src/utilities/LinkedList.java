@@ -1,7 +1,5 @@
-package utilities;
-
 /**
- * A list composed of nodes pointing at the next index
+ * A singly linked list with head and tail sentinel nodes
  * 
  * <p>Bugs: none known
  *
@@ -9,6 +7,9 @@ package utilities;
  * @date 2/13/2023
  * @param <T>
  */
+
+package utilities;
+
 public class LinkedList<T> {
 	// the list has sentinel nodes head and tail as well as a size
 	protected Node _head;

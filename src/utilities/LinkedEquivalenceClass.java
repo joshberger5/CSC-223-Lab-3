@@ -1,9 +1,5 @@
-package utilities;
-
-import java.util.Comparator;
-
 /**
- * Group of elements that are equivalent based on some rule
+ * Set of elements that are equivalent based on some rule
  *
  * <p>Bugs: none known
  *
@@ -11,6 +7,11 @@ import java.util.Comparator;
  * @date 2/13/2023
  * @param <T>
  */
+
+package utilities;
+
+import java.util.Comparator;
+
 public class LinkedEquivalenceClass<T> {
 	private T _canonical;
 	private Comparator<T> _comparator;
