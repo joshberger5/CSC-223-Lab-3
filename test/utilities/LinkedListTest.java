@@ -20,130 +20,286 @@ public class LinkedListTest {
 		assertEquals("", l.toString());
 	}
 	
+	// makes sure that trying to add null to the front doesn't work
 	@Test
-	void testAddToFront() {
+	void testAddToFrontNull() {
 		LinkedList<Integer> l = new LinkedList<Integer>();
 		
-		// checks to see if it adds an element to the front of an empty list
-		l.addToFront(5);
-		assertEquals("5", l.toString());
-		
-		// checks to see if it adds null
 		l.addToFront(null);
-		assertEquals("5", l.toString());
 		
-		// checks to see if it adds an element to the front of an unempty list
-		l.addToFront(6);
-		assertEquals("6 5", l.toString());
-		
-		// checks to see if adding to the front works after clearing the list
-		l.clear();
-		l.addToFront(6);
-		assertEquals("6", l.toString());
+		assertEquals("", l.toString());
 	}
 	
+	// makes sure that adding to the front of an empty list works
 	@Test
-	void testAddToBack() {
+	void testAddToFrontOfEmptyList() {
 		LinkedList<Integer> l = new LinkedList<Integer>();
 		
-		// checks to see if it adds an element to the back of an empty list
-		l.addToBack(5);
-		assertEquals("5", l.toString());
-		
-		// checks to see if it adds null
-		l.addToBack(null);
-		assertEquals("5", l.toString());
-		
-		// checks to see if it adds an element to the back of an unempty list
-		l.addToBack(6);
-		assertEquals("5 6", l.toString());
-		
-		// checks to see if adding to the back works after clearing the list
-		l.clear();
-		l.addToBack(6);
-		assertEquals("6", l.toString());
-	}
-	
-	@Test
-	void testContains() {
-		LinkedList<Integer> l = new LinkedList<Integer>();
-		
-		// checks if it says it contains an element in the list
 		l.addToFront(5);
-		assertTrue(l.contains(5));
 		
-		// check if it says it doesn't contain an element not in the list
-		assertFalse(l.contains(6));
+		assertEquals("5", l.toString());
+	}
+	
+	// makes sure that adding to the front of an unempty list works
+	@Test
+	void testAddToFrontOfUnemptyList() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
 		
-		// check if it handles null
+		l.addToFront(6);
+		l.addToFront(5);
+		
+		assertEquals("5 6", l.toString());
+	}
+	
+	//makes sure that adding to the front works after calling clear
+	@Test
+	void testAddToFrontAfterClear() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
+		l.addToFront(6);
+		l.addToFront(5);
+		
+		l.clear();
+		
+		l.addToFront(4);
+		
+		assertEquals("4", l.toString());
+	}
+	
+	// makes sure that trying to add null to the back doesn't work
+	@Test
+	void testAddToBackNull() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
+		l.addToBack(null);
+		
+		assertEquals("", l.toString());
+	}
+	
+	// makes sure that adding to the back of an empty list works
+	@Test
+	void testAddToBackOfEmptyList() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
+		l.addToBack(5);
+		
+		assertEquals("5", l.toString());
+	}
+		
+	// makes sure that adding to the back of an unempty list works
+	@Test
+	void testAddToBackOfUnemptyList() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
+		l.addToBack(5);
+		l.addToBack(6);
+		
+		assertEquals("5 6", l.toString());
+	}
+		
+	//makes sure that adding to the back works after calling clear
+	@Test
+	void testAddToBackAfterClear() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
+		l.addToBack(5);
+		l.addToBack(6);
+		
+		l.clear();
+		
+		l.addToBack(4);
+		
+		assertEquals("4", l.toString());
+	}
+	
+	// makes sure that contains returns false when passed in null
+	@Test
+	void testContainsWithNull() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
 		assertFalse(l.contains(null));
 	}
 	
+	// makes sure that contains returns true when passed in something that is in the list
 	@Test
-	void testRemove() {
+	void testContainsWithSomethingInList() {
 		LinkedList<Integer> l = new LinkedList<Integer>();
 		
-		// add some stuff to the list
-		l.addToFront(3);
-		l.addToFront(2);
-		l.addToFront(1);
-		l.addToBack(4);
+		l.addToFront(5);
 		
-		// check if it removes the last element
-		l.remove(4);
-		assertEquals("1 2 3", l.toString());
-		l.addToBack(4);
+		assertTrue(l.contains(5));
+	}
+	
+	// makes sure that contains returns false when passed in something that isn't in the list
+	// when the list has something in it
+	@Test
+	void testContainsWithSomethingNotInList() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
 		
-		// check if it removes the first element
-		l.remove(1);
-		assertEquals("2 3 4", l.toString());
-		l.addToFront(1);
+		l.addToFront(5);
 		
-		// checks to see if it handles null
+		assertFalse(l.contains(6));
+	}
+	
+	// makes sure that contains returns false when passed in something that isn't in the list
+	// when the list has nothing in it
+	@Test
+	void testContainsWithEmptyList() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
+		assertFalse(l.contains(6));
+	}
+	
+	// makes sure that remove handles null input
+	@Test
+	void testRemoveNull() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
 		assertFalse(l.remove(null));
-		assertEquals("1 2 3 4", l.toString());
-		
-		// checks to see if it handles an element not in the list
-		assertFalse(l.remove(5));
-		assertEquals("1 2 3 4", l.toString());
-		
 	}
 	
+	// makes sure that remove works with only one element in the list
+	// after both add to back and add to front
 	@Test
-	void testSize() {
+	void testRemoveSingleElement() {
 		LinkedList<Integer> l = new LinkedList<Integer>();
 		
-		// check that it returns that it has a size of 0 initially
-		assertEquals(0, l.size());
+		l.addToFront(5);
 		
-		// add some stuff to the list
-		l.addToFront(3);
+		assertTrue(l.remove(5));
+		assertEquals("", l.toString());
+		
+		l.addToBack(5);
+		
+		assertTrue(l.remove(5));
+		assertEquals("", l.toString());
+	}
+	
+	// makes sure that remove works on the last element of a multi-element list
+	@Test
+	void testRemoveLast() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
 		l.addToFront(2);
+		l.addToBack(3);
 		l.addToFront(1);
 		l.addToBack(4);
 		
-		// checks that the size was properly updated after both add functions
-		assertEquals(4, l.size());
+		assertTrue(l.remove(4));
+		assertEquals("1 2 3", l.toString());
+	}
+	
+	// makes sure that remove works on the first element of a multi-element list
+	@Test
+	void testRemoveFirst() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+			
+		l.addToFront(2);
+		l.addToBack(3);
+		l.addToFront(1);
+		l.addToBack(4);
+			
+		assertTrue(l.remove(1));
+		assertEquals("2 3 4", l.toString());
+	}
+	
+	// makes sure that remove works on a middle element of a multi-element list
+	@Test
+	void testRemoveMiddle() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+				
+		l.addToFront(2);
+		l.addToBack(3);
+		l.addToFront(1);
+		l.addToBack(4);
+				
+		assertTrue(l.remove(2));
+		assertEquals("1 3 4", l.toString());
+	}
+	
+	// makes sure that size returns 0 for an empty list
+	@Test
+	void testSizeEmptyList() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
 		
-		// check that it works after remove
-		l.remove(3);
-		assertEquals(3, l.size());
-		
-		// checks that it works after clear
-		l.clear();
 		assertEquals(0, l.size());
 	}
 	
+	// makes sure that size increases after add to back
 	@Test
-	void testReverse() {
+	void testSizeAfterAddToBack() {
 		LinkedList<Integer> l = new LinkedList<Integer>();
 		
-		l.addToFront(3);
+		l.addToBack(5);
+		l.addToBack(6);
+		
+		assertEquals(2, l.size());
+	}
+	
+	// makes sure that size increases after add to front
+	@Test
+	void testSizeAfterAddToFront() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
+		l.addToFront(5);
+		l.addToFront(6);
+		
+		assertEquals(2, l.size());
+	}
+	
+	// makes sure that size decreases after remove
+	@Test
+	void testSizeAfterRemove() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
+		l.addToFront(1);
+		l.addToFront(2);
+		
+		l.addToBack(3);
+		l.addToBack(4);
+		
+		l.remove(1);
+		l.remove(2);
+		l.remove(3);
+		l.remove(4);
+		
+		assertEquals(0, l.size());
+	}
+	
+	// makes sure that reverse doesn't break anything when the list is empty
+	@Test
+	void testReverseEmptyList() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
+		l.reverse();
+		
+		assertEquals("", l.toString());
+	}
+	
+	// makes sure that reverse doesn't break anything when the list has one element
+	@Test
+	void testReverseSingleList() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+			
+		l.addToFront(5);
+		
+		l.reverse();
+			
+		assertEquals("5", l.toString());
+	}
+	
+	// makes sure that a populated list is able to be reversed
+	@Test
+	void testReverseUnemptyList() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
 		l.addToFront(2);
 		l.addToFront(1);
+		l.addToBack(3);
 		l.addToBack(4);
 		
 		l.reverse();
+		
 		assertEquals("4 3 2 1", l.toString());
 	}
 }
