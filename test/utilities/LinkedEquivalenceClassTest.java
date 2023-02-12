@@ -48,7 +48,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testConstructor() {
 		Comparator<Integer> f = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		LinkedEquivalenceClass<Integer> e = new LinkedEquivalenceClass<Integer>(f);
 		
 		assertEquals("", e.toString());
 	}
@@ -57,7 +57,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testIsEmptyWhenEmpty() {
 		Comparator<String> c = setComparatorCapitalized();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(c);
 		
 		assertTrue(e.isEmpty());
 	}
@@ -66,7 +66,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testIsEmptyWhenUnempty() {
 		Comparator<String> c = setComparatorCapitalized();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(c);
 		
 		e.add("Whatever");
 		
@@ -77,7 +77,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testAddNull() {
 		Comparator<Integer> f = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		LinkedEquivalenceClass<Integer> e = new LinkedEquivalenceClass<Integer>(f);
 		
 		assertFalse(e.add(null));
 	}	
@@ -87,7 +87,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testAddFirst() {
 		Comparator<Integer> f = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		LinkedEquivalenceClass<Integer> e = new LinkedEquivalenceClass<Integer>(f);
 		
 		assertTrue(e.add(5));
 		assertEquals("5", e.toString());
@@ -99,7 +99,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testAddSecondWhenBelongs() {
 		Comparator<Integer> f = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		LinkedEquivalenceClass<Integer> e = new LinkedEquivalenceClass<Integer>(f);
 		
 		e.add(5);
 		
@@ -113,7 +113,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testAddSecondWhenDoesntBelong() {
 		Comparator<Integer> f = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		LinkedEquivalenceClass<Integer> e = new LinkedEquivalenceClass<Integer>(f);
 			
 		e.add(5);
 		
@@ -125,7 +125,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testAddCanonicalRepeat() {
 		Comparator<Integer> f = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		LinkedEquivalenceClass<Integer> e = new LinkedEquivalenceClass<Integer>(f);
 		
 		e.add(5);
 		e.add(50);
@@ -142,7 +142,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testAddRepeat() {
 		Comparator<Integer> f = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		LinkedEquivalenceClass<Integer> e = new LinkedEquivalenceClass<Integer>(f);
 			
 		e.add(5);
 		e.add(50);
@@ -159,7 +159,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testCanonicalWhenEmpty() {
 		Comparator<Integer> f = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		LinkedEquivalenceClass<Integer> e = new LinkedEquivalenceClass<Integer>(f);
 		
 		assertEquals(null, e.canonical());
 	}
@@ -168,7 +168,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testCanonicalWhenUempty() {
 		Comparator<Integer> f = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		LinkedEquivalenceClass<Integer> e = new LinkedEquivalenceClass<Integer>(f);
 			
 		e.add(5);
 		e.add(10);
@@ -183,7 +183,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testDemoteAndSetCanonicalEmpty() {
 		Comparator<Integer> f = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		LinkedEquivalenceClass<Integer> e = new LinkedEquivalenceClass<Integer>(f);
 		
 		assertFalse(e.demoteAndSetCanonical(5));
 	}
@@ -192,7 +192,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testDemoteAndSetCanonicalJustCanonicalAndBelongs() {
 		Comparator<Integer> f = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		LinkedEquivalenceClass<Integer> e = new LinkedEquivalenceClass<Integer>(f);
 		
 		e.add(10);
 		
@@ -204,7 +204,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testDemoteAndSetCanonicalMoreThanJustCanonicalAndBelongs() {
 		Comparator<Integer> f = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		LinkedEquivalenceClass<Integer> e = new LinkedEquivalenceClass<Integer>(f);
 			
 		e.add(10);
 		e.add(15);
@@ -217,7 +217,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testDemoteAndSetCanonicalDoesntBelong() {
 		Comparator<Integer> f = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		LinkedEquivalenceClass<Integer> e = new LinkedEquivalenceClass<Integer>(f);
 			
 		e.add(10);
 		e.add(15);
@@ -230,7 +230,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testDemoteAndSetCanonicalNull() {
 		Comparator<Integer> f = setComparatorDivBy5();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<Integer>(f);
+		LinkedEquivalenceClass<Integer> e = new LinkedEquivalenceClass<Integer>(f);
 			
 		assertFalse(e.demoteAndSetCanonical(null));
 	}
@@ -239,7 +239,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testClearNonCanonicalWhenEmpty() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 		
 		e.clearNonCanonical();
 		assertEquals("", e.toString());
@@ -251,7 +251,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testClearNonCanonicalWhenPopulated() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 		
 		e.add("deified");
 		e.add("civic");
@@ -265,7 +265,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testClearWhenEmpty() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 		
 		e.clear();
 		assertEquals("", e.toString());
@@ -277,7 +277,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testClearWhenPopulated() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 			
 		e.add("pop");
 		e.add("testset");
@@ -291,7 +291,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testSizeWhenEmpty() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 		
 		assertEquals(0, e.size());
 	}
@@ -300,7 +300,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testSizeForJustCanonical() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 		
 		e.add("aibohphobia");
 		
@@ -311,7 +311,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testSizePopulated() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 		
 		e.add("aibohphobia");
 		e.add("pop");
@@ -324,7 +324,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testSizeDemoteAndSetCanonical() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 		
 		e.add("aibohphobia");
 		e.add("pop");
@@ -338,7 +338,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testSizeRemoveCanonical() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 		
 		e.add("aibohphobia");
 		e.add("pop");
@@ -353,7 +353,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testSizeRemove() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 		
 		e.add("aibohphobia");
 		e.add("pop");
@@ -369,7 +369,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testBelongsEmpty() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 		
 		assertTrue(e.belongs("stats"));
 	}
@@ -378,7 +378,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testBelongsEquivalent() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 			
 		e.add("stats");
 		
@@ -389,7 +389,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testBelongsNotEquivalent() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 			
 		e.add("stats");
 		
@@ -400,7 +400,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testBelongsNull() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 		
 		assertFalse(e.belongs(null));
 	}
@@ -409,7 +409,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testContainsNull() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 		
 		assertFalse(e.contains(null));
 	}
@@ -418,7 +418,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testContainsEmpty() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 		
 		assertFalse(e.contains("madam"));
 	}
@@ -427,7 +427,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testContainsCanonicalMatch() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 		
 		e.add("madam");
 		
@@ -438,7 +438,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testContainsMatch() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 			
 		e.add("madam");
 		e.add("rotator");
@@ -452,7 +452,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testContainsDoesntMatchButBelongs() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 			
 		e.add("madam");
 		e.add("rotator");
@@ -466,7 +466,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testContainsDoesntMatchDoesntBelong() {
 		Comparator<String> p = setComparatorPalindrome();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(p);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(p);
 			
 		e.add("madam");
 		e.add("rotator");
@@ -478,7 +478,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testRemoveNull() {
 		Comparator<String> c = setComparatorCapitalized();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(c);
 		
 		assertFalse(e.remove(null));
 	}
@@ -487,7 +487,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testRemoveEmpty() {
 		Comparator<String> c = setComparatorCapitalized();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(c);
 
 		assertFalse(e.remove("Hello"));
 		assertEquals("", e.toString());
@@ -497,7 +497,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testRemovePassingInCanonical() {
 		Comparator<String> c = setComparatorCapitalized();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(c);
 		
 		e.add("Hello");
 		
@@ -509,7 +509,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testRemoveDoesntBelong() {
 		Comparator<String> c = setComparatorCapitalized();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(c);
 		
 		e.add("Hello");
 
@@ -521,7 +521,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testRemoveBelongs() {
 		Comparator<String> c = setComparatorCapitalized();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(c);
 			
 		e.add("Hello");
 
@@ -533,7 +533,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testRemoveNonCanonical() {
 		Comparator<String> c = setComparatorCapitalized();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(c);
 		
 		e.add("Hello");
 		e.add("Goodbye");
@@ -546,7 +546,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testRemoveCanonicalWhenEmpty() {
 		Comparator<String> c = setComparatorCapitalized();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(c);
 		
 		assertFalse(e.removeCanonical());
 	}
@@ -555,7 +555,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testRemoveCanonicalWithJustCanonical() {
 		Comparator<String> c = setComparatorCapitalized();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(c);
 			
 		e.add("Water");
 		
@@ -566,7 +566,7 @@ public class LinkedEquivalenceClassTest {
 	@Test
 	void testRemoveCanonicalWhenPopulated() {
 		Comparator<String> c = setComparatorCapitalized();
-		LinkedEquivalenceClass e = new LinkedEquivalenceClass<String>(c);
+		LinkedEquivalenceClass<String> e = new LinkedEquivalenceClass<String>(c);
 				
 		e.add("Water");
 		e.add("Fire");
