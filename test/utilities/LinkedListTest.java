@@ -1,11 +1,3 @@
-/**
-* Creates tests for LinkedList
-*
-* <p>Bugs: none known
-*
-* @author Josh Berger and Jake Shore
-* @date 2/13/2023
-*/
 package utilities;
 
 import static org.junit.jupiter.api.Assertions.*;

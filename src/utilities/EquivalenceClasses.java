@@ -10,8 +10,8 @@ import java.util.List;
  * 
  * <p>Bugs: none known
  * 
- * @author Me
- * @date 2/9/2023
+ * @author Josh Berger and Jake Shore
+ * @date 2/13/2023
  * @param <T>
  */
 public class EquivalenceClasses<T> {
