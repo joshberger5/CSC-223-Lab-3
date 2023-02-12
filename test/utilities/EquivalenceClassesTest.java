@@ -7,84 +7,84 @@ import java.util.Comparator;
 import org.junit.jupiter.api.Test;
 
 public class EquivalenceClassesTest {
-	
+
 	private Comparator<Integer> setComparatorMod5Group() {
 		return new Comparator<Integer>() {
-			public int compare(Integer x, Integer y) { 
+			public int compare(Integer x, Integer y) {
 				return x % 5 == y % 5 ? 0 : 1;
 			}
 		};
 	}
-	
+
 	@Test
-	void equivalenceClassesExistTest() {
+	void testEquivalenceClassesExist() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
+
 		assertNotNull(aClass);
 		assertNotNull(aClass._comparator);
-		assertNotNull(aClass._classes);	
+		assertNotNull(aClass._classes);
 	}
-	
+
 	@Test
-	void containsInTest() {
+	void testContainsIn() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
-		for(int i=0; i<=50; i++) {
+
+		for (int i = 0; i <= 50; i++) {
 			aClass.add(i);
 			assertTrue(aClass.contains(i));
 		}
 	}
-	
+
 	@Test
-	void containsNotInTest() {
+	void testContainsNotIn() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		for(int i=0; i<=5; i++) {
+		for (int i = 0; i <= 5; i++) {
 			aClass.add(i);
 		}
-		
+
 		assertFalse(aClass.contains(6));
 	}
-	
+
 	@Test
-	void containsEmptyTest() {
+	void testContainsEmpty() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
+
 		assertFalse(aClass.contains(0));
 	}
-	
+
 	@Test
-	void containsNullComparatorTest() {
+	void testContainsNullComparator() {
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(null);
-		
+
 		assertFalse(aClass.contains(0));
 	}
-	
+
 	@Test
-	void containsNullValueTest() {
+	void testContainsNullValue() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
+
 		assertFalse(aClass.contains(null));
 	}
-	
+
 	@Test
-	void addOneTest() {
+	void testAddOne() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
+
 		assertTrue(aClass.add(0));
 		assertTrue(aClass.contains(0));
 	}
-	
+
 	@Test
-	void addSameTest() {
+	void testAddSame() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
+
 		assertTrue(aClass.add(0));
 		assertEquals(1, aClass.numClasses());
 		assertTrue(aClass.add(1));
@@ -92,211 +92,211 @@ public class EquivalenceClassesTest {
 		assertFalse(aClass.add(1));
 		assertEquals(2, aClass.numClasses());
 	}
-	
+
 	@Test
-	void addNewGroupTest() {
+	void testAddNewGroup() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
+
 		assertTrue(aClass.add(1)); // group 1
 		assertEquals(1, aClass.numClasses());
 		assertTrue(aClass.add(2)); // group 2
 		assertEquals(2, aClass.numClasses());
 	}
-	
+
 	@Test
-	void addSameGroupTest() {
+	void testAddSameGroup() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
+
 		assertTrue(aClass.add(1)); // group 1
 		assertEquals(1, aClass.numClasses());
 		assertTrue(aClass.add(6)); // group 1
 		assertEquals(1, aClass.numClasses());
 	}
-	
+
 	@Test
-	void addNullComparatorTest() {
+	void testAddNullComparator() {
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(null);
-		
+
 		assertFalse(aClass.add(1));
 	}
-	
+
 	@Test
-	void addNullValueTest() {
+	void testAddNullValue() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
+
 		assertFalse(aClass.add(null));
 	}
-	
+
 	@Test
-	void sizeOneTest() {
+	void testSizeOne() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
+
 		aClass.add(0);
 		assertEquals(1, aClass.size());
 	}
-	
+
 	@Test
-	void sizeManyTest() {
+	void testSizeMany() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
-		for(int i=0; i<=50; i++) {
+
+		for (int i = 0; i <= 50; i++) {
 			aClass.add(i);
-			assertEquals(i+1, aClass.size());
+			assertEquals(i + 1, aClass.size());
 		}
 	}
-	
+
 	@Test
-	void sizeOneClassTest() {
+	void testSizeOneClass() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
-		for(int i=0; i<=50; i+=5) {
+
+		for (int i = 0; i <= 50; i += 5) {
 			aClass.add(i);
-			assertEquals(i/5 + 1, aClass.size());
+			assertEquals(i / 5 + 1, aClass.size());
 		}
 	}
-	
+
 	@Test
-	void sizeEmptyTest() {
+	void testSizeEmpty() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
+
 		assertEquals(0, aClass.size());
 	}
-	
+
 	@Test
-	void sizeNullComparatorTest() {
+	void testSizeNullComparator() {
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(null);
-		
+
 		aClass.add(1);
 		aClass.add(2);
 		assertEquals(0, aClass.size());
 	}
-	
+
 	@Test
-	void sizeNullValueTest() {
+	void testSizeNullValue() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
 		aClass.add(null);
-		
+
 		assertEquals(0, aClass.size());
 	}
-	
+
 	@Test
-	void numClassesOneTest() {
+	void testNumClassesOne() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
+
 		aClass.add(0);
 		assertEquals(1, aClass.numClasses());
 	}
-	
+
 	@Test
-	void numClassesManyTest() {
+	void testNumClassesMany() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
-		for(int i=0; i<=50; i++) {
+
+		for (int i = 0; i <= 50; i++) {
 			aClass.add(i);
-			assertEquals(i>=5 ? 5 : i+1, aClass.numClasses());
+			assertEquals(i >= 5 ? 5 : i + 1, aClass.numClasses());
 		}
 	}
-	
+
 	@Test
-	void numClassesOneClassTest() {
+	void testNumClassesOneClass() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
-		for(int i=0; i<=50; i+=5) {
+
+		for (int i = 0; i <= 50; i += 5) {
 			aClass.add(i);
 			assertEquals(1, aClass.numClasses());
 		}
 	}
-	
+
 	@Test
-	void numClassesEmptyTest() {
+	void testNumClassesEmpty() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
+
 		assertEquals(0, aClass.numClasses());
 	}
-	
+
 	@Test
-	void numClassesNullComparatorTest() {
+	void testNumClassesNullComparator() {
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(null);
-		
+
 		aClass.add(1);
 		aClass.add(2);
 		assertEquals(0, aClass.numClasses());
 	}
-	
+
 	@Test
-	void numClassesNullValueTest() {
+	void testNumClassesNullValue() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
 		aClass.add(null);
-		
+
 		assertEquals(0, aClass.numClasses());
 	}
-	
+
 	@Test
-	void indexOfClassOneClassTest() {
+	void testIndexOfClassOneClass() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
-		for(int i=0; i<=50; i+=5) {
+
+		for (int i = 0; i <= 50; i += 5) {
 			aClass.add(i);
 			assertEquals(0, aClass.indexOfClass(i));
 		}
 	}
-	
+
 	@Test
-	void indexOfClassManyClassesTest() {
+	void testIndexOfClassManyClasses() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
-		for(int i=0; i<=50; i++) {
+
+		for (int i = 0; i <= 50; i++) {
 			aClass.add(i);
-			assertEquals(i%5, aClass.indexOfClass(i));
+			assertEquals(i % 5, aClass.indexOfClass(i));
 		}
 	}
-	
+
 	@Test
-	void indexOfClassNotInTest() {
+	void testIndexOfClassNotIn() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
+
 		aClass.add(0);
 		assertEquals(-1, aClass.indexOfClass(1));
 	}
-	
+
 	@Test
-	void indexOfClassEmptyTest() {
+	void testIndexOfClassEmpty() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
-		
+
 		assertEquals(-1, aClass.indexOfClass(0));
 	}
-	
+
 	@Test
-	void indexOfClassNullComparatorTest() {
+	void testIndexOfClassNullComparator() {
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(null);
-		
+
 		assertEquals(-1, aClass.indexOfClass(0));
 	}
-	
+
 	@Test
-	void indexOfClassNullValueTest() {
+	void testIndexOfClassNullValue() {
 		Comparator<Integer> compare = setComparatorMod5Group();
 		EquivalenceClasses<Integer> aClass = new EquivalenceClasses<Integer>(compare);
 		aClass.add(null);
-		
+
 		assertEquals(-1, aClass.indexOfClass(null));
 	}
-	
+
 }
