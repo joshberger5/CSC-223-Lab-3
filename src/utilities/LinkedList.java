@@ -78,14 +78,32 @@ public class LinkedList<T> {
 	}
 	
 	/**
+	 * adds an element to the list right after the passed in element
+	 * @param index, element
+	 */
+	private void addAtIndex(Node index, T element) {
+		if (index == null || index == _tail) return;
+		Node node = new Node(element, index._next);
+		index._next = node;
+		_size++;
+	}
+	
+	/**
 	 * if the passed in element is valid adds it as a node to the front of the list adding 1 to the size
 	 * @param element
 	 */
 	public void addToFront(T element) {
 		if (element == null) return;
-		Node node = new Node(element, _head._next);
-		_head._next = node;
-		_size++;
+		addAtIndex(_head, element);
+	}
+
+	/**
+	 * adds an element as a node before the tail
+	 * @param element
+	 */
+	public void addToBack(T element) {
+		if (element == null) return;
+		addAtIndex(last(), element);
 	}
 	
 	/**
@@ -156,17 +174,6 @@ public class LinkedList<T> {
 	private Node last(Node n) {
 		if (n._next == _tail) return n;
 		return (last(n._next));
-	}
-	
-	/**
-	 * adds an element as a node before the tail
-	 * @param element
-	 */
-	public void addToBack(T element) {
-		if (element == null) return;
-		Node node = new Node(element, _tail);
-		last()._next = node;
-		_size++;
 	}
 	
 	/**
