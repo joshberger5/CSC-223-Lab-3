@@ -282,11 +282,25 @@ public class LinkedListTest {
 	
 	// makes sure that a populated list is able to be reversed
 	@Test
-	void testReverseUnemptyList() {
+	void testReverseAfterAddToFront() {
 		LinkedList<Integer> l = new LinkedList<Integer>();
 		
+		l.addToFront(4);
+		l.addToFront(3);
 		l.addToFront(2);
 		l.addToFront(1);
+		
+		l.reverse();
+		
+		assertEquals("4 3 2 1", l.toString());
+	}
+	
+	@Test
+	void testReverseAfterAddToBack() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
+		l.addToBack(1);
+		l.addToBack(2);
 		l.addToBack(3);
 		l.addToBack(4);
 		
@@ -295,5 +309,18 @@ public class LinkedListTest {
 		assertEquals("4 3 2 1", l.toString());
 	}
 	
-	// add more tests for reverse for each add, reverse twice
+	@Test
+	void testReverseTwice() {
+		LinkedList<Integer> l = new LinkedList<Integer>();
+		
+		l.addToBack(1);
+		l.addToBack(2);
+		l.addToBack(3);
+		l.addToBack(4);
+		
+		l.reverse();
+		l.reverse();
+		
+		assertEquals("1 2 3 4", l.toString());
+	}
 }

@@ -63,9 +63,7 @@ public class LinkedEquivalenceClass<T> {
 	 * @return the size of the rest plus the canonical
 	 */
 	public int size() {
-		// change to ternary operator
-		if (_canonical == null) return _rest.size();
-		return _rest.size()+1;
+		return _rest.size() + (_canonical == null ? 0 : 1);		
 	}
 	
 	/**
@@ -74,14 +72,20 @@ public class LinkedEquivalenceClass<T> {
 	 * @return whether the element was added
 	 */
 	public boolean add(T element) {
+		// you obviously don't want to add null to the set
 		if (element == null) return false;
-		// add comments
+		
+		// if the list is empty, then the first element added needs to be the canonical
 		if (isEmpty()) {
 			_canonical = element;
 			return true;
 		}
-		// switch around canonical and rest containment
-		if (!belongs(element) || _rest.contains(element) || _canonical.equals(element)) return false;
+		
+		// if the element does not belong in the set
+		// or
+		// it matches either the canonical or a non-canonical element
+		// then don't add it (its a set, so it shouldn't have repeats)
+		if (!belongs(element) || _canonical.equals(element) || _rest.contains(element)) return false;
 		_rest.addToFront(element);
 		return true;
 	}
@@ -133,8 +137,15 @@ public class LinkedEquivalenceClass<T> {
 	 * @return whether the canonical value was set
 	 */
 	public boolean demoteAndSetCanonical(T element) {
-		// add comments
-		if (element == null || isEmpty() || !belongs(element) || _canonical.equals(element)) return false;
+		// if the element is null, don't add it
+		// if the list is empty, there is no canonical to demote
+		// if it equals the canonical, you don't want to make a repeat
+		// if it doesn't belong, then you also don't want to add it
+		if (element == null || isEmpty() || _canonical.equals(element) || !belongs(element)) return false;
+		
+		// if it doesn't meet any of those, then remove it from the rest of the list, if its in there
+		// change the canonical to the new element
+		// add the old canonical to the rest of the list
 		_rest.remove(element);
 		T temp = _canonical;
 		_canonical = element;

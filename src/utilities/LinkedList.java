@@ -135,17 +135,13 @@ public class LinkedList<T> {
 	 * @return whether the target was removed
 	 */
 	public boolean remove(T target) {
-		// change to target = null and p 
-		if (target != null) {
-			Node p = previous(target);
-			if (p != null) {
-				p._next = p._next._next;
-				_size--;
-				return true;
-			}
+		if (target == null) return false;
+		Node p = previous(target);
+		if (p == null) return false;
+		p._next = p._next._next;
+		_size--;
+		return true;
 		}
-		return false;
-	}
 	
 	// 
 	/**
