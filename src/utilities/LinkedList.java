@@ -124,7 +124,8 @@ public class LinkedList<T> {
 	}
 	
 	private Node previous(T target, Node node) {
-		if (node == _tail || node == null || node._next == _tail) return null;
+		if (node == _tail || node == null) return null;
+		if (node._next == _tail) return node;
 		if (node._next._data.equals(target)) return node;
 		return previous(target, node._next);
 	}
