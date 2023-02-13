@@ -135,6 +135,7 @@ public class LinkedList<T> {
 	 * @return whether the target was removed
 	 */
 	public boolean remove(T target) {
+		// change to target = null and p 
 		if (target != null) {
 			Node p = previous(target);
 			if (p != null) {
@@ -191,7 +192,7 @@ public class LinkedList<T> {
 	 * reverses the list
 	 */
 	public void reverse() {
-		if (_head._next == _tail || size() == 1) return;
+		if (size() <= 1) return;
 		reverse(_head._next, _tail, last());
 	}
 	

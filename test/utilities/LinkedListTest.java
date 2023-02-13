@@ -294,4 +294,6 @@ public class LinkedListTest {
 		
 		assertEquals("4 3 2 1", l.toString());
 	}
+	
+	// add more tests for reverse for each add, reverse twice
 }

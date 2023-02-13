@@ -63,6 +63,7 @@ public class LinkedEquivalenceClass<T> {
 	 * @return the size of the rest plus the canonical
 	 */
 	public int size() {
+		// change to ternary operator
 		if (_canonical == null) return _rest.size();
 		return _rest.size()+1;
 	}
@@ -74,10 +75,12 @@ public class LinkedEquivalenceClass<T> {
 	 */
 	public boolean add(T element) {
 		if (element == null) return false;
+		// add comments
 		if (isEmpty()) {
 			_canonical = element;
 			return true;
 		}
+		// switch around canonical and rest containment
 		if (!belongs(element) || _rest.contains(element) || _canonical.equals(element)) return false;
 		_rest.addToFront(element);
 		return true;
@@ -130,6 +133,7 @@ public class LinkedEquivalenceClass<T> {
 	 * @return whether the canonical value was set
 	 */
 	public boolean demoteAndSetCanonical(T element) {
+		// add comments
 		if (element == null || isEmpty() || !belongs(element) || _canonical.equals(element)) return false;
 		_rest.remove(element);
 		T temp = _canonical;
