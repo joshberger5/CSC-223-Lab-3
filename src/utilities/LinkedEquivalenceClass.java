@@ -1,3 +1,7 @@
+package utilities;
+
+import java.util.Comparator;
+
 /**
  * Set of elements that are equivalent based on some rule
  *
@@ -7,11 +11,6 @@
  * @date 2/13/2023
  * @param <T>
  */
-
-package utilities;
-
-import java.util.Comparator;
-
 public class LinkedEquivalenceClass<T> {
 	private T _canonical;
 	private Comparator<T> _comparator;

@@ -50,6 +50,11 @@ public class EquivalenceClasses<T> {
 		return _classes.get(belongsIndex).add(element);
 	}
 	
+	/**
+	 * gets the index of the equivalence class the element belongs to
+	 * @param element
+	 * @return index of class the element belongs to or -1 if not found
+	 */
 	private int indexOfClassBelongs(T element) {
 		for(int i=0; i<_classes.size(); i++) {
 			if (_classes.get(i).belongs(element)) {
@@ -57,6 +62,16 @@ public class EquivalenceClasses<T> {
 			}
 		}
 		return -1;
+	}
+	
+	/**
+	 * determines if an element is contained at a given index
+	 * @param element
+	 * @param index
+	 * @return whether the element is at the index
+	 */
+	private boolean containsAt(T element, int index) {
+		return _classes.get(index).contains(element);
 	}
 	
 	/**
@@ -106,7 +121,7 @@ public class EquivalenceClasses<T> {
 	 */
 	protected int indexOfClass(T element) {
 		int belongsIndex = indexOfClassBelongs(element);
-		if(belongsIndex == -1 || !_classes.get(belongsIndex).contains(element)) return -1;
+		if(belongsIndex == -1 || !containsAt(element, belongsIndex)) return -1;
 		return belongsIndex;
 	}
 	

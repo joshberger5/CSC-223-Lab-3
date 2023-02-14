@@ -1,3 +1,5 @@
+package utilities;
+
 /**
  * A singly linked list with head and tail sentinel nodes
  * 
@@ -7,8 +9,6 @@
  * @date 2/13/2023
  * @param <T>
  */
-
-package utilities;
 
 public class LinkedList<T> {
 	// the list has sentinel nodes head and tail as well as a size
