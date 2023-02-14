@@ -33,7 +33,7 @@ public class EquivalenceClasses<T> {
 	 * @param element
 	 * @return whether the class was created
 	 */
-	private boolean createNewEquivalenceClass(T element) {
+	private boolean createNewEquivalenceClassWithElement(T element) {
 		LinkedEquivalenceClass<T> equivalence = new LinkedEquivalenceClass<T>(_comparator);
 		equivalence.add(element);
 		return _classes.add(equivalence);
@@ -44,13 +44,19 @@ public class EquivalenceClasses<T> {
 	 * @param element
 	 * @return whether the element was added
 	 */
-	private boolean addToEquivalenceClass(T element) {
-		for(LinkedEquivalenceClass<T> aClass : _classes) {
-			if(aClass.add(element)) {
-				return true;
+	private boolean addToValidEquivalenceClass(T element) {
+		int belongsIndex = indexOfClassBelongs(element);
+		if(belongsIndex == -1) return false;
+		return _classes.get(belongsIndex).add(element);
+	}
+	
+	private int indexOfClassBelongs(T element) {
+		for(int i=0; i<_classes.size(); i++) {
+			if (_classes.get(i).belongs(element)) {
+				return i;
 			}
 		}
-		return false;
+		return -1;
 	}
 	
 	/**
@@ -68,9 +74,9 @@ public class EquivalenceClasses<T> {
 	 * @return whether the element was added
 	 */
 	public boolean add(T element) {
-		if (element == null || _comparator == null) return false;
-		return addToEquivalenceClass(element) ? true :
-			   contains(element) ? false : createNewEquivalenceClass(element);
+		if (element == null || _comparator == null || contains(element)) return false;
+		if(addToValidEquivalenceClass(element)) return true;
+		return createNewEquivalenceClassWithElement(element);
 	}
 	
 	/**
@@ -99,12 +105,9 @@ public class EquivalenceClasses<T> {
 	 * @return index of class containing element or -1 if not found
 	 */
 	protected int indexOfClass(T element) {
-		for(int i=0; i<_classes.size(); i++) {
-			if (_classes.get(i).contains(element)) {
-				return i;
-			}
-		}
-		return -1;
+		int belongsIndex = indexOfClassBelongs(element);
+		if(belongsIndex == -1 || !_classes.get(belongsIndex).contains(element)) return -1;
+		return belongsIndex;
 	}
 	
 	/**
